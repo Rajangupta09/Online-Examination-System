@@ -3,17 +3,9 @@
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media
-OnlineExamination/
 Untitled.png
 default.jpg
-login/
-manage.py
-onlineexam/
 pic.jpg
-profile_pics/
-requirements.txt
 try1.html
