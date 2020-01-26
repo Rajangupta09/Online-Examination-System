@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +25,7 @@ SECRET_KEY = '258zq9r=pcfn5!#ukj1e(d=3j)t%6+g*r&j3!gostqs4&mbeam'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['jdmrischool.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,5 +126,6 @@ MEDIA_URL  = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media' )
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL= 'dashboard/'
-import django_heroku
+
+
 django_heroku.settings(locals())
