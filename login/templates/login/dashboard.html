@@ -23,7 +23,7 @@
         </div>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="{% url 'category' %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
-  <a href="#"><a href="#"> Sub Category</a>
+  <a href="#"><a href="{% url 'sub_category' %}"> Sub Category</a>
   <a href="#"><i class="fa fa-envelope fa-fw"></i> Subject</a>
   <a href="#"><i class="fa fa-support fa-fw"></i>Center</a>
   <a href="#"><i class="fa fa-users fa-fw"></i>Student</a>
@@ -69,7 +69,7 @@
     <h2><center><i class="fa fa-home fa-fw" aria-hidden="true"></i><br>Category</center></h2>
   </div>
   </a>
-  <a href="">
+  <a href="{% url 'sub_category' %}">
   <div class="column" style="background-color:#bbb;">
     <h2><center><i class="fa fa-comments-o fa-fw"></i><br>Sub Category</center></h2>
   </div>

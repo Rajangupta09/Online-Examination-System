@@ -28,7 +28,7 @@
   box-sizing: border-box;
 }
 select{
-  width: 20%;
+  width: 400px;
 }
 /* Style the search field */
 form.example input[type=text] {

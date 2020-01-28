@@ -27,6 +27,7 @@ class Categories(models.Model):
 		return f'{self.category}'
 
 class sub_categories(models.Model):
+	id=models.AutoField(primary_key=True)
 	category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='categories')
 	date_created = models.DateTimeField(default=timezone.now)
 	status = models.BooleanField(default=True)

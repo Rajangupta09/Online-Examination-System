@@ -22,7 +22,7 @@
           <p><b>JDMR Ischool</b></p>
         </div>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="{% url 'category'%}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
+  <a href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
   <a href="#"><a href="#"> Sub Category</a>
   <a href="#"><i class="fa fa-envelope fa-fw"></i> Subject</a>
   <a href="#"><i class="fa fa-support fa-fw"></i>Center</a>
@@ -56,62 +56,27 @@
 
 <!-- Welcome Nav Bar -->
 <div class="nav2">
-    <p><b><u><center>Welcome to Sub category</center></u></b></p>
+    <p><b><u><center>Welcome to Category</center></u></b></p>
 </div>
 <hr>
 <!--  End of Welcome nav bar -->
 
 <!--  Content -->
 
-<h1><u><b><center>Sub category</center></b></u></h1>
+<h1><u><b><center>Confirm Delete Category</center></b></u></h1>
 
 <div class="border">
-  <div class="row">
-    <div class="column" style="background-color:#dde;">
-      <br>
-      <h3><b><center>Add Sub category</center></b></h3>
-      <form  method="POST" class="example" action="">
-        {% csrf_token %}
-        <div class="input-group">
-          
-            <select class="custom-select col-4" name="category_id" aria-label="Example select with button addon">
-              <option selected>Category</option>
-              {% for categorie in categories %}
-              <option value="{{categorie.id}}">{{categorie.category}}</option>
-              {% endfor %}
-            </select>
-          </div>
-        <input type="text" placeholder="Sub category" name="sub_category" required>
-        <button type="submit">ADD</button>
-      </form>
+  <div class="container">
+  
       <hr>
-      <div>
-             
-          <table class="table table-striped" id="myTable">
-            <thead>
-              <tr>
-              
-                <th onclick="sortTable(0)">Category <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">Sub Category</th>
-                <th>Status</th>
-                <th>Option</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for sub_categorie in sub_categories %}
-              <tr>
-                {% if sub_categorie.status == True %}
-                <td>{{sub_categorie.category}}</td>
-                <td>{{sub_categorie.sub_category}}</td>
-                <td><button class="btn btn-danger"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button></td>
-                <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
-                {% endif %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+      <div  style="display: flex;">
+          <h3>Name: &nbsp; &nbsp; {{cdelete.category}}  &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;</h3>
+          <h3>Date: &nbsp; &nbsp; {{cdelete.date_created}}   &nbsp;&nbsp;&nbsp;   &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;</h3>
+          <form  method="POST"  action="">
+            {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
 
-        
       </div>    
     </div>
   </div>    

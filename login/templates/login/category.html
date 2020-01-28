@@ -22,8 +22,8 @@
           <p><b>JDMR Ischool</b></p>
         </div>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="#"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
-  <a href="#"><a href="#"> Sub Category</a>
+  <a href="{% url 'category' %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
+  <a href="{% url 'sub_category' %}"><a href="#"> Sub Category</a>
   <a href="#"><i class="fa fa-envelope fa-fw"></i> Subject</a>
   <a href="#"><i class="fa fa-support fa-fw"></i>Center</a>
   <a href="#"><i class="fa fa-users fa-fw"></i>Student</a>
@@ -93,7 +93,7 @@
                 {% if categorie.status == True %}
                 <td>{{categorie.category}}</td>
                 <td>{{categorie.id}}</td>
-                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{% url 'category_edit' categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% endif %}
               </tr>
               {% endfor %}

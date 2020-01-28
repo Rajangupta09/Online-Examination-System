@@ -13,7 +13,10 @@ urlpatterns = [
     path('login/category/', views.category ,name='category'), 
     path('login/sub_category/', views.sub_category ,name='sub_category'), 
     path('delete/<int:pk>', views.CategoryDelete , name='Category_delete'),
-    path('delete/<int:pk>', views.SubCategoryDelete , name='Sub_Category_delete'),
+    path('delete_SubCategory/<int:pk>', views.SubCategoryDelete , name='Sub_Category_delete'),
+    path('Edit/<int:pk>', views.Categoryedit , name='category_edit'),
+    path('Edit_Subcategory/<int:pk>', views.subcategoryedit , name='subcategory_edit'),
+
 
 ]    
 

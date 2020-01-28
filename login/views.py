@@ -53,12 +53,30 @@ def CategoryDelete(request, pk,):
     cdelete = get_object_or_404(Categories, pk=pk)    
     if request.method=='POST':
         cdelete.delete()
-        return redirect('category')
-    return render(request, 'login/category.html', {'cdelete': cdelete})
+        return redirect('/OnlineExam/login/category')
+    return render(request, 'login/delete.html', {'cdelete': cdelete})
 
 def SubCategoryDelete(request, pk,):
-    cdelete = get_object_or_404(sub_categories, pk=pk)    
+    sdelete = get_object_or_404(sub_categories, pk=pk)    
     if request.method=='POST':
-        cdelete.delete()
-        return redirect('sub_category')
-    return render(request, 'login/sub_category.html', {'cdelete': cdelete})
+        sdelete.delete()
+        return redirect('/OnlineExam/login/sub_category')
+    return render(request, 'login/deletesub.html', {'sdelete': sdelete})
+
+def Categoryedit(request, pk,):
+	cedit = get_object_or_404(Categories, pk=pk)    
+	if request.method=='POST':
+		cedit.category=request.POST.get('category')
+		cedit.save()
+		return redirect('/OnlineExam/login/category')
+	return render(request, 'login/cedit.html',{'cedit': cedit})
+
+def subcategoryedit(request, pk,):
+	sedit = get_object_or_404(sub_categories, pk=pk)   
+	categories_list = Categories.objects.all().order_by('-date_created')
+	if request.method=='POST':
+		sedit.sub_category=request.POST.get('sub_category')
+		sedit.category_id=request.POST.get('category_id')
+		sedit.save()
+		return redirect('/OnlineExam/login/sub_category')
+	return render(request, 'login/sedit.html', {'sedit': sedit,'categories':categories_list})
