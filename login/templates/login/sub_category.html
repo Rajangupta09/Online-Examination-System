@@ -66,6 +66,13 @@
 <h1><u><b><center>Sub category</center></b></u></h1>
 
 <div class="border">
+  <div class="input-group">
+    <form class="form-inline my-2 my-lg-1">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name=search>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>      
+   
+  </div>
   <div class="row">
     <div class="column" style="background-color:#dde;">
       <br>
@@ -103,9 +110,18 @@
                 {% if sub_categorie.status == True %}
                 <td>{{sub_categorie.category}}</td>
                 <td>{{sub_categorie.sub_category}}</td>
-                <td><button class="btn btn-danger"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button></td>
+               
+                <td><a href="{% url 'substat' sub_categorie.id %}">
+                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
+              
+                <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                {% else %}
+                <td>{{sub_categorie.category}}</td>
+                <td>{{sub_categorie.sub_category}}</td>
+                <td><a href="{% url 'substat' sub_categorie.id %}"><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
                 <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% endif %}
+
               </tr>
               {% endfor %}
             </tbody>

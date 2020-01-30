@@ -66,6 +66,13 @@
 <h1><u><b><center>Category</center></b></u></h1>
 
 <div class="border">
+  <div class="input-group">
+    <form class="form-inline my-2 my-lg-1">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name=search>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>      
+   
+  </div>
   <div class="row">
     <div class="column" style="background-color:#dde;">
       <br>
@@ -92,14 +99,51 @@
               <tr>
                 {% if categorie.status == True %}
                 <td>{{categorie.category}}</td>
-                <td>{{categorie.id}}</td>
+                <td><a href="{% url 'statc' categorie.id %}">
+                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
                 <td><a href="{% url 'category_edit' categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                {% else %}
+                <td>{{categorie.category}}</td>
+                <td><a href="{% url 'statc' categorie.id %}">
+                  <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>
+                <td><a href="{% url 'category_edit' categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                
                 {% endif %}
               </tr>
               {% endfor %}
             </tbody>
           </table>
 
+          {% if search_term %}
+            <h1>hello{{search_term}}</h1>
+{%endif%}
+          <div class="row">
+						<div class="col-12">
+					{% if categories.has_other_pages %}
+					<div class="pagination text-center">                
+						<nav class="pagination__nav clearfix">
+							{% if categories.has_previous %}
+							<a href="?page={{categories.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
+							{% endif %}
+							{% for i in categories.paginator.page_range %}
+								{% if categories.number == i %}
+									<span class="pagination__page pagination__page--active">{{i}}</span>
+								{% else %}
+							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
+								{% endif %}
+							{% endfor %}
+							{% if categories.has_next %}
+							<a href="?page={{categories.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
+							{% endif %}
+						</nav>
+					</div>
+					{% endif %}
+					</div>
+					</div>
         
       </div>    
     </div>

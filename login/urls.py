@@ -3,7 +3,6 @@ from . import views
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.conf import settings
-from django.forms import ModelForm
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -16,6 +15,9 @@ urlpatterns = [
     path('delete_SubCategory/<int:pk>', views.SubCategoryDelete , name='Sub_Category_delete'),
     path('Edit/<int:pk>', views.Categoryedit , name='category_edit'),
     path('Edit_Subcategory/<int:pk>', views.subcategoryedit , name='subcategory_edit'),
+    path('Status_Subcategory/<int:pk>', views.substat , name='substat'),
+    path('Status_category/<int:pk>', views.cstat , name='statc'),
+
 
 
 ]    

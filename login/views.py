@@ -1,21 +1,25 @@
 from django.shortcuts import render,HttpResponse, get_object_or_404, redirect
 from .models import *
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate ,login
+from django.contrib import messages
+from django.db.models import Q
 
 
 
 
 def login(request):
 	if(request.method=="POST"):
-		print("ok")
 		params=request.POST
-		user=authenticate(params['username'], params['password'])
+		user=auth.authenticate(params['username'], params['password'])
 		if(user is not None):
 			login(request, User.objects.get(user__username=params['username']))
-			return HttpResponse('<h1>worked</h1>')
+			messages.success(request, 'Your request has been submitted')
+			return redirect('/')
 		else:
-			return HttpResponse('<h1>error</h1>')
+			messages.error(request, 'Invalid credentials')
+			return redirect('/login')
 	else:
 		return render(request , 'login/login.html')		
 
@@ -23,16 +27,26 @@ def login(request):
 def dashboard(request):
 	return render(request , 'login/dashboard.html')	
 
+
 def category(request):
+	categories_list = Categories.objects.all().order_by('-date_created')
+	paginator = Paginator(categories_list, 10)
+	page = request.GET.get('page')
+	search_term=''
+	paged_categorie = paginator.get_page(page)
 	if(request.method=="POST"):
 		post=Categories()
 		post.category=request.POST.get('category')
 		post.save()
 		categories_list = Categories.objects.all().order_by('-date_created')
-		return render(request, 'login/category.html',{'categories':categories_list})  
-	else:
-		categories_list = Categories.objects.all().order_by('-date_created')
-		return render(request, 'login/category.html',{'categories':categories_list}) 
+		return render(request, 'login/category.html',{'categories':paged_categorie})  
+	
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		categories_list=categories_list.filter( category__icontains=search_term)
+
+
+	return render(request, 'login/category.html',{'categories':paged_categorie,'search_term':search_term}) 
 
 
 def sub_category(request):
@@ -44,6 +58,7 @@ def sub_category(request):
 		categories_list = Categories.objects.all().order_by('-date_created')
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list,})  
+
 	else:
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 		categories_list = Categories.objects.all().order_by('-date_created')
@@ -80,3 +95,21 @@ def subcategoryedit(request, pk,):
 		sedit.save()
 		return redirect('/OnlineExam/login/sub_category')
 	return render(request, 'login/sedit.html', {'sedit': sedit,'categories':categories_list})
+
+
+def substat(request, pk,):
+	stats = get_object_or_404(sub_categories, pk=pk)   
+	categories_list = Categories.objects.all().order_by('-date_created')
+	if request.method=='POST':
+		stats.status=request.POST.get('status')
+		stats.save()
+		return redirect('/OnlineExam/login/sub_category')
+	return render(request, 'login/stats.html', {'stats': stats,'categories':categories_list})
+
+def cstat(request, pk,):
+	statc = get_object_or_404(Categories, pk=pk)    
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/category')
+	return render(request, 'login/statc.html',{'statc': statc})

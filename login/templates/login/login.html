@@ -10,7 +10,13 @@
 
 </head>
 <body>
+			
 
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ messages }}
+                    </div>
+           		
   <!-- Form For Login Page -->
 
 <form method="POST"  id="login-form" class="login-form" autocomplete="off" role="main">
@@ -33,7 +39,7 @@
 							<div class="shirt-2"></div>
 						  </figure>
 					</span>
-
+				
 					<span class="txt1">
 						Username
 					</span>
@@ -49,7 +55,7 @@
 						<span name="show-password" class="btn-show-pass">
 							<i class="fa fa-eye"></i>
 						</span>
-						<input class="input100" type="password" name="password" >
+						<input class="input100" type="password" name="password" required >
 						<span class="focus-input100"></span>
 					</div>
 
