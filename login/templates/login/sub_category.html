@@ -24,7 +24,7 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="{% url 'category'%}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Category</a>
   <a href="#"><a href="#"> Sub Category</a>
-  <a href="#"><i class="fa fa-envelope fa-fw"></i> Subject</a>
+  <a href="{% url 'subject'%}"><i class="fa fa-envelope fa-fw"></i> Subject</a>
   <a href="#"><i class="fa fa-support fa-fw"></i>Center</a>
   <a href="#"><i class="fa fa-users fa-fw"></i>Student</a>
   <a href="#"><i class="fa fa-envelope fa-fw"></i> Exam</a>
@@ -59,6 +59,7 @@
     <p><b><u><center>Welcome to Sub category</center></u></b></p>
 </div>
 <hr>
+
 <!--  End of Welcome nav bar -->
 
 <!--  Content -->
@@ -68,10 +69,28 @@
 <div class="border">
   <div class="input-group">
     <form class="form-inline my-2 my-lg-1">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name=search>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <div class="input-group">
+        {% if search_term %}
+        <input class="form-control mr-sm-2" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
+        <div class="input-group-addon">
+          <button type="submit" class="fabutton">
+         <i class="fa fa-close">
+         </i>
+         </button>
+         {%else%}
+         <input class="form-control mr-sm-2" type="search" placeholder='search' aria-label="Search" name=search>
+         <div class="input-group-addon">
+          <button type="submit" class="fabutton">
+         <i class="fa fa-search">
+        </i>
+        </button>
+        {%endif%}
+        
+      
+    </div>
+  </div>
+
     </form>      
-   
   </div>
   <div class="row">
     <div class="column" style="background-color:#dde;">
@@ -98,8 +117,8 @@
             <thead>
               <tr>
               
-                <th onclick="sortTable(0)">Category <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">Sub Category</th>
+                <th onclick="sortTable(0)">Sub category <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Category</th>
                 <th>Status</th>
                 <th>Option</th>
               </tr>
@@ -108,16 +127,17 @@
               {% for sub_categorie in sub_categories %}
               <tr>
                 {% if sub_categorie.status == True %}
-                <td>{{sub_categorie.category}}</td>
                 <td>{{sub_categorie.sub_category}}</td>
+                <td>{{sub_categorie.category}}</td>
+                
                
                 <td><a href="{% url 'substat' sub_categorie.id %}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
               
                 <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% else %}
+               <td>{{sub_categorie.sub_category}}</td>
                 <td>{{sub_categorie.category}}</td>
-                <td>{{sub_categorie.sub_category}}</td>
                 <td><a href="{% url 'substat' sub_categorie.id %}"><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
                 <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% endif %}

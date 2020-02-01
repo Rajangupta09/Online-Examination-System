@@ -33,4 +33,13 @@ class sub_categories(models.Model):
 	status = models.BooleanField(default=True)
 	sub_category = models.CharField(max_length=200)
 	def __str__(self):
-	 return f'{self.sub_category}'
+	 return "%s  (category:%s)" %(self.sub_category, self.category)
+
+class Subjects(models.Model):
+	id=models.AutoField(primary_key=True)
+	sub_category = models.ForeignKey(sub_categories, on_delete=models.CASCADE, related_name='subject_sub_categories')
+	date_created = models.DateTimeField(default=timezone.now)
+	subject = models.CharField(max_length=200)
+	status = models.BooleanField(default=True)
+	def __str__(self):
+	 return f'{self.subject}'

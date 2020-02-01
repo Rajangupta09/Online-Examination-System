@@ -44,12 +44,19 @@ def category(request):
 	if 'search' in request.GET:
 		search_term = request.GET['search']
 		categories_list=categories_list.filter( category__icontains=search_term)
+		return render(request, 'login/category.html',{'categories':categories_list,'search_term':search_term}) 
 
 
 	return render(request, 'login/category.html',{'categories':paged_categorie,'search_term':search_term}) 
 
 
 def sub_category(request):
+	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
+	categories_list = Categories.objects.all().order_by('-date_created')
+	paginator = Paginator(sub_categories_list, 10)
+	page = request.GET.get('page')
+	search_term=''
+	paged_subcategorie = paginator.get_page(page)
 	if(request.method=="POST"):
 		post=sub_categories()
 		post.sub_category=request.POST.get('sub_category')
@@ -59,10 +66,13 @@ def sub_category(request):
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list,})  
 
-	else:
-		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
-		categories_list = Categories.objects.all().order_by('-date_created')
-		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list,})          
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		sub_categories_list=sub_categories_list.filter( sub_category__icontains=search_term)
+		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list, 'search_term':search_term}) 
+
+
+	return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':paged_subcategorie,})          
 
 def CategoryDelete(request, pk,):
     cdelete = get_object_or_404(Categories, pk=pk)    
@@ -113,3 +123,26 @@ def cstat(request, pk,):
 		statc.save()
 		return redirect('/OnlineExam/login/category')
 	return render(request, 'login/statc.html',{'statc': statc})
+
+def Subject(request):
+	subject_list = Subjects.objects.all().order_by('-date_created')
+	categors = Subjects.objects.get(sub_categories__category = self.object.category)
+	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
+	paginator = Paginator(subject_list, 10)
+	page = request.GET.get('page')
+	search_term=''
+	paged_subject = paginator.get_page(page)
+	if(request.method=="POST"):
+		post=Subjects()
+		post.sub_category_id=request.POST.get('sub_category')
+		post.subject=request.POST.get('subject')
+		post.save()
+		subject_list = Subjects.objects.all().order_by('-date_created')
+		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
+		return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':subject_list})  
+
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		subject_list=subject_list.filter( subject__icontains=search_term)
+		return render(request, 'login/subject.html',{'subject':subject_list, 'search_term':search_term})
+	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,})          

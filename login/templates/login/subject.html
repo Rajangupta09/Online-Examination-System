@@ -56,14 +56,14 @@
 
 <!-- Welcome Nav Bar -->
 <div class="nav2">
-    <p><b><u><center>Welcome to Category</center></u></b></p>
+    <p><b><u><center>Welcome to Subject</center></u></b></p>
 </div>
 <hr>
 <!--  End of Welcome nav bar -->
 
 <!--  Content -->
 
-<h1><u><b><center>Category</center></b></u></h1>
+<h1><u><b><center>Subject</center></b></u></h1>
 
 <div class="border">
   <div class="input-group">
@@ -93,10 +93,18 @@
   <div class="row">
     <div class="column" style="background-color:#dde;">
       <br>
-      <h3><b><center>Add Category</center></b></h3>
+      <h3><b><center>Add Subject</center></b></h3>
       <form  method="POST" class="example" action="">
         {% csrf_token %}
-        <input type="text" placeholder="Category" name="category" required>
+        <div class="input-group">
+            <select class="custom-select col-4" name="sub_category" aria-label="Example select with button addon">
+              <option selected>Sub Category</option>
+              {% for sub_categorie in sub_categories %}
+              <option value="{{sub_categorie.id}}">{{sub_categorie.sub_category}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        <input type="text" placeholder="Sub category" name="subject" required>
         <button type="submit">ADD</button>
       </form>
       <hr>
@@ -106,24 +114,30 @@
             <thead>
               <tr>
               
-                <th onclick="sortTable(0)">Category <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">Status</th>
+                <th onclick="sortTable(0)">Subject <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">SubCategory</th>
+                <th onclick="sortTable(2)">Category</th>
+                <th>Status</th>
                 <th>Option</th>
               </tr>
             </thead>
             <tbody>
-              {% for categorie in categories %}
+              {% for sub in Subject %}
               <tr>
-                {% if categorie.status == True %}
-                <td>{{categorie.category}}</td>
-                <td><a href="{% url 'statc' categorie.id %}">
+                {% if sub.status == True %}
+                <td>{{sub.subject}}</td>
+                <td>{{sub.sub_category}}</td>
+                <td>{{sub.sub_category}}</td>
+                <td><a href="">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
-                <td><a href="{% url 'category_edit' categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% else %}
-                <td>{{categorie.category}}</td>
-                <td><a href="{% url 'statc' categorie.id %}">
-                  <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>
-                <td><a href="{% url 'category_edit' categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Category_delete' categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td>{{sub.subject}}</td>
+                <td>{{sub.sub_category}}</td>
+                <td>{{sub.category}}</td>
+                <td><a href="">
+                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 
                 {% endif %}
               </tr>

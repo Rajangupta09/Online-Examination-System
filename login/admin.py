@@ -18,3 +18,10 @@ class SubCategoriesAdmin(admin.ModelAdmin):
     list_filter = ('category', 'date_created')
     list_editable = ('status',)
 admin.site.register(sub_categories, SubCategoriesAdmin)
+
+class SubjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'subject', 'sub_category', 'status')
+    list_filter = ('date_created', 'sub_category', 'subject')
+    list_editable = ('status',)
+    list_per_page = 25
+admin.site.register(Subjects, SubjectAdmin)

@@ -107,7 +107,11 @@ li a:hover:not(.active) {
   font-size: 17px;
 }
 
-
+.fabutton {
+  background: none;
+  padding: 0px;
+  border: none;
+}
 
 /**  Welcome bar **/
 
