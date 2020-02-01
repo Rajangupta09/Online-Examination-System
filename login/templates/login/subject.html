@@ -104,7 +104,7 @@
               {% endfor %}
             </select>
           </div>
-        <input type="text" placeholder="Sub category" name="subject" required>
+        <input type="text" placeholder="Subject" name="subject" required>
         <button type="submit">ADD</button>
       </form>
       <hr>
@@ -128,16 +128,16 @@
                 <td>{{sub.subject}}</td>
                 <td>{{sub.sub_category}}</td>
                 <td>{{sub.sub_category}}</td>
-                <td><a href="">
+                <td><a href="{% url 'subjstat' sub.id %}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
-                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{%url 'subject_edit' sub.id%}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'subject_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% else %}
                 <td>{{sub.subject}}</td>
                 <td>{{sub.sub_category}}</td>
-                <td>{{sub.category}}</td>
-                <td><a href="">
-                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
-                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td>{{sub.sub_category}}</td>
+                <td><a href="{% url 'subjstat' sub.id %}">
+                  <button class="btn btn-success" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Activate</button> </a></td>>
+                <td><a href="{%url 'subject_edit' sub.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'subject_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 
                 {% endif %}
               </tr>
@@ -147,23 +147,23 @@
 
           <div class="row">
 						<div class="col-12">
-					{% if categories.has_other_pages %}
+					{% if Subject.has_other_pages %}
 					<div class="pagination text-center">                
 						<nav class="pagination__nav clearfix">
-							{% if categories.has_previous %}
-							<a href="?page={{categories.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
+							{% if Subject.has_previous %}
+							<a href="?page={{Subject.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
 							{% else %}
 							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
 							{% endif %}
-							{% for i in categories.paginator.page_range %}
-								{% if categories.number == i %}
+							{% for i in Subject.paginator.page_range %}
+								{% if Subject.number == i %}
 									<span class="pagination__page pagination__page--active">{{i}}</span>
 								{% else %}
 							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
 								{% endif %}
 							{% endfor %}
-							{% if categories.has_next %}
-							<a href="?page={{categories.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
+							{% if Subject.has_next %}
+							<a href="?page={{Subject.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
 							{% else %}
 							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
 							{% endif %}

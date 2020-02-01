@@ -86,7 +86,7 @@ def SubCategoryDelete(request, pk,):
     if request.method=='POST':
         sdelete.delete()
         return redirect('/OnlineExam/login/sub_category')
-    return render(request, 'login/deletesub.html', {'sdelete': sdelete})
+    return render(request, 'login/delete.html', {'sdelete': sdelete})
 
 def Categoryedit(request, pk,):
 	cedit = get_object_or_404(Categories, pk=pk)    
@@ -108,13 +108,13 @@ def subcategoryedit(request, pk,):
 
 
 def substat(request, pk,):
-	stats = get_object_or_404(sub_categories, pk=pk)   
+	statc = get_object_or_404(sub_categories, pk=pk)   
 	categories_list = Categories.objects.all().order_by('-date_created')
 	if request.method=='POST':
-		stats.status=request.POST.get('status')
-		stats.save()
+		statc.status=request.POST.get('status')
+		statc.save()
 		return redirect('/OnlineExam/login/sub_category')
-	return render(request, 'login/stats.html', {'stats': stats,'categories':categories_list})
+	return render(request, 'login/statc.html', {'statc': statc,'categories':categories_list})
 
 def cstat(request, pk,):
 	statc = get_object_or_404(Categories, pk=pk)    
@@ -143,5 +143,31 @@ def Subject(request):
 	if 'search' in request.GET:
 		search_term = request.GET['search']
 		subject_list=subject_list.filter( subject__icontains=search_term)
-		return render(request, 'login/subject.html',{'subject':subject_list, 'search_term':search_term})
+		return render(request, 'login/subject.html',{'Subject':subject_list, 'search_term':search_term})
 	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,})          
+
+def SubjectDelete(request, pk,):
+    subdelete = get_object_or_404(Subjects, pk=pk)    
+    if request.method=='POST':
+        subdelete.delete()
+        return redirect('/OnlineExam/login/Subject/')
+    return render(request, 'login/delete.html', {'subdelete': subdelete})
+
+def SubjectEdit(request, pk,):
+	Subedit = get_object_or_404(Subjects, pk=pk)   
+	categories_list = sub_categories.objects.all().order_by('-date_created')
+	if request.method=='POST':
+		Subedit.sub_category_id=request.POST.get('sub_category')
+		Subedit.subject=request.POST.get('subject')
+		Subedit.save()
+		return redirect('/OnlineExam/login/Subject')
+	return render(request, 'login/subedit.html', {'Subedit': Subedit,'categories':categories_list})
+
+
+def subjectstat(request, pk,):
+	statc = get_object_or_404(Subjects, pk=pk)   
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/Subject/')
+	return render(request, 'login/statc.html', {'statc': statc})

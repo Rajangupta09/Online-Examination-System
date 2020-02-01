@@ -55,23 +55,17 @@
 <!-- End of Upper Nav Bar -->
 
 <!-- Welcome Nav Bar -->
-<div class="nav2">
-    <p><b><u><center>Welcome to Category</center></u></b></p>
-</div>
-<hr>
 <!--  End of Welcome nav bar -->
 
 <!--  Content -->
 
-<h1><u><b><center>Confirm Delete Category</center></b></u></h1>
+<h1><u><b><center>Confirm Delete</center></b></u></h1>
 
 <div class="border">
   <div class="container">
   
       <hr>
       <div  style="display: flex;">
-          <h3>Name: &nbsp; &nbsp; {{cdelete.category}}  &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;</h3>
-          <h3>Date: &nbsp; &nbsp; {{cdelete.date_created}}   &nbsp;&nbsp;&nbsp;   &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;</h3>
           <form  method="POST"  action="">
             {% csrf_token %}
           <button type="submit" class="btn btn-danger">Delete</button>

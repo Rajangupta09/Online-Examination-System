@@ -56,30 +56,33 @@
 
 <!-- Welcome Nav Bar -->
 <div class="nav2">
-    <p><b><u><center>Welcome to Sub category</center></u></b></p>
+    <p><b><u><center>Welcome to Subject</center></u></b></p>
 </div>
 <hr>
 <!--  End of Welcome nav bar -->
 
 <!--  Content -->
 
-<h1><u><b><center>Edit Sub category</center></b></u></h1>
+<h1><u><b><center>Edit Subject</center></b></u></h1>
 
 <div class="border">
   <div class="container">
   
       <hr>
-      <h3><b><center>Edit Sub Category</center></b></h3>
+      <h3><b><center>Edit Subject</center></b></h3>
       <form  method="POST" action="">
         {% csrf_token %}
-        {% if stats.status is True %}
-        <input type="hidden" placeholder="{{stats.status}}" name="status" value="False">
-        <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button>
-        {% else %}
-        <input type="hidden" placeholder="{{stats.status}}" name="status" value="True">
-        <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button>
-        {% endif %}
-    </form>
+        <div class="input-group">
+            <select class="custom-select col-4" name="sub_category" aria-label="Example select with button addon">
+                <option selected>Sub Category</option>
+                {% for sub_categorie in categories %}
+                <option value="{{sub_categorie.id}}">{{sub_categorie.sub_category}}</option>
+                {% endfor %}
+            </select>
+            </div>
+        <input type="text" placeholder="Sub category" name="subject" required>
+        <button type="submit">Edit</button>
+        </form>
     </div>
   </div>    
 </div>
