@@ -126,7 +126,6 @@ def cstat(request, pk,):
 
 def Subject(request):
 	subject_list = Subjects.objects.all().order_by('-date_created')
-	categors = Subjects.objects.get(sub_categories__category = self.object.category)
 	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 	paginator = Paginator(subject_list, 10)
 	page = request.GET.get('page')
