@@ -21,8 +21,7 @@ urlpatterns = [
     path('Status_Subcategory/<int:pk>', views.substat , name='substat'),
     path('Status_category/<int:pk>', views.cstat , name='statc'),
     path('Status_subject/<int:pk>', views.subjectstat , name='subjstat'),
-
-
+    path('load-subject', views.load_sub, name='loadsub'),
 
 ]    
 

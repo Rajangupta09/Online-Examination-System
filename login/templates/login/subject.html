@@ -61,6 +61,7 @@
 <hr>
 <!--  End of Welcome nav bar -->
 
+
 <!--  Content -->
 
 <h1><u><b><center>Subject</center></b></u></h1>
@@ -94,14 +95,18 @@
     <div class="column" style="background-color:#dde;">
       <br>
       <h3><b><center>Add Subject</center></b></h3>
-      <form  method="POST" class="example" action="">
+      
+      <form  method="POST" id="subform" class="example" data-cities-url="{% url 'loadsub' %}" novalidate>
         {% csrf_token %}
         <div class="input-group">
-            <select class="custom-select col-4" name="sub_category" aria-label="Example select with button addon">
-              <option selected>Sub Category</option>
-              {% for sub_categorie in sub_categories %}
-              <option value="{{sub_categorie.id}}">{{sub_categorie.sub_category}}</option>
+            <select class="custom-select col-4" id="cat" name="category" aria-label="Example select with button addon">
+              <option selected>Select Category</option>
+              {% for categorie in categories %}
+              <option value="{{categorie.id}}">{{categorie.category}}</option>
               {% endfor %}
+            </select>
+            <select class="custom-select col-4" name="sub_category" id="sub" aria-label="Example select with button addon">
+              <option selected>Sub Category</option>
             </select>
           </div>
         <input type="text" placeholder="Subject" name="subject" required>
@@ -109,7 +114,10 @@
       </form>
       <hr>
       <div>
-             
+           
+
+
+
           <table class="table table-striped" id="myTable">
             <thead>
               <tr>
@@ -126,7 +134,7 @@
               <tr>
                 {% if sub.status == True %}
                 <td>{{sub.subject}}</td>
-                <td>{{sub.sub_category}}</td>
+                <td>{{sub.sub_category.category}}</td>
                 <td>{{sub.sub_category}}</td>
                 <td><a href="{% url 'subjstat' sub.id %}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
@@ -178,6 +186,24 @@
   </div>    
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+ $("#cat").change(function () {
+    var url = $("#subform").attr("data-cities-url"); 
+    var categoryId = $(this).val();  
 
+    $.ajax({                       
+      url: url,                    
+      data: {
+        'category': categoryId    
+      },
+      success: function (data) { 
+        $("#sub").html(data);  
+      }
+    });
+
+  });
+
+</script>
 <script  src="{% static 'login/category.js' %}"></script>
 </html>

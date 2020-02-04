@@ -126,6 +126,7 @@ def cstat(request, pk,):
 
 def Subject(request):
 	subject_list = Subjects.objects.all().order_by('-date_created')
+	categories_list = Categories.objects.all().order_by('-date_created')
 	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 	paginator = Paginator(subject_list, 10)
 	page = request.GET.get('page')
@@ -133,18 +134,19 @@ def Subject(request):
 	paged_subject = paginator.get_page(page)
 	if(request.method=="POST"):
 		post=Subjects()
+		post.category_id=request.POST.get('category')
 		post.sub_category_id=request.POST.get('sub_category')
 		post.subject=request.POST.get('subject')
 		post.save()
 		subject_list = Subjects.objects.all().order_by('-date_created')
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
-		return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':subject_list})  
+		return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':subject_list, 'categories':categories_list})  
 
 	if 'search' in request.GET:
 		search_term = request.GET['search']
 		subject_list=subject_list.filter( subject__icontains=search_term)
 		return render(request, 'login/subject.html',{'Subject':subject_list, 'search_term':search_term})
-	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,})          
+	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,'categories':categories_list})          
 
 def SubjectDelete(request, pk,):
     subdelete = get_object_or_404(Subjects, pk=pk)    
@@ -171,3 +173,8 @@ def subjectstat(request, pk,):
 		statc.save()
 		return redirect('/OnlineExam/login/Subject/')
 	return render(request, 'login/statc.html', {'statc': statc})
+
+def load_sub(request):
+    category_id = request.GET.get('category')
+    sub_category = sub_categories.objects.filter(category_id=category_id).order_by('date_created')
+    return render(request, 'login/option.html', {'sub_category': sub_category})
