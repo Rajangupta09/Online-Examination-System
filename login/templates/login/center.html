@@ -5,7 +5,7 @@
 
 <!--  Content -->
 
-<h1><u><b><center>Subject</center></b></u></h1>
+<h1><u><b><center>Center</center></b></u></h1>
 
 <div class="border">
   <div class="input-group">
@@ -35,22 +35,22 @@
   <div class="row">
     <div class="column" style="background-color:#dde;">
       <br>
-      <h3><b><center>Add Subject</center></b></h3>
+      <h3><b><center>Add Center</center></b></h3>
       
-      <form  method="POST" id="subform" class="example" data-cities-url="{% url 'loadsub' %}" novalidate>
+      <form  method="POST" id="subform" class="example" novalidate>
         {% csrf_token %}
-        <div class="input-group">
-            <select class="custom-select col-4" id="cat" name="category" aria-label="Example select with button addon">
-              <option selected>Select Category</option>
-              {% for categorie in categories %}
-              <option value="{{categorie.id}}">{{categorie.category}}</option>
-              {% endfor %}
-            </select>
-            <select class="custom-select col-4" name="sub_category" id="sub" aria-label="Example select with button addon">
-              <option selected>Sub Category</option>
-            </select>
-          </div>
-        <input type="text" placeholder="Subject" name="subject" required>
+        <label>Center Code</label>
+        <input type="number" placeholder="Center Code" name="code" min="99999" required>
+        <label>Center Name</label>
+        <input type="text" placeholder="Center Name" name="name" required><br>
+        <label>Address</label>
+        <textarea  placeholder="Address" name="address" rows="2" cols="40" required></textarea>
+        <label>Email</label>
+        <input type="email" placeholder="Email" name="email" required>
+        <label>User Name</label>
+        <input type="text" placeholder="User Name" name="user" required>
+        <label>Password</label>
+        <input type="password" placeholder="Password" name="password" required>
         <button type="submit">ADD</button>
       </form>
       <hr>
@@ -58,35 +58,56 @@
            
 
 
-
+        <div class="col-md-6 col-md-offset-3">
+            <!-- Nav tabs -->
+            <ul id="tabs" class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#all" role="tab" data-toggle="tab">All</a></li>
+              <li role="presentation"><a href="#online" role="tab" data-toggle="tab">Online</a></li>
+              <li role="presentation"><a href="#offline" role="tab" data-toggle="tab">Offline</a></li>
+            </ul>
+            
+            <div class="tab-content">
+                {% if 'online' in url%}
+              <div role="tabpanel" class="tab-pane fade in active" id="all">All content</div>
+              {%else%}
+              <p >asdh</p>
+              {% endif %}
+              <div role="tabpanel" class="tab-pane fade in " id="online">Online content</div>
+              <div role="tabpanel" class="tab-pane fade" id="offline">Offline content</div>
+            </div>
+              
+            </div>
           <table class="table table-striped" id="myTable">
             <thead>
               <tr>
               
-                <th onclick="sortTable(0)">Subject <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">SubCategory</th>
-                <th onclick="sortTable(2)">Category</th>
+                <th onclick="sortTable(0)">Center Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Center Code <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(2)">Email <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(3)">User Name <i class="fa fa-sort"></i></th>
                 <th>Status</th>
                 <th>Option</th>
               </tr>
             </thead>
             <tbody>
-              {% for sub in Subject %}
+              {% for cen in center %}
               <tr>
-                {% if sub.status == True %}
-                <td>{{sub.subject}}</td>
-                <td>{{sub.sub_category.category}}</td>
-                <td>{{sub.sub_category}}</td>
-                <td><a href="{% url 'subjstat' sub.id %}">
+                {% if cen.status == True %}
+                <td>{{cen.Name}}</td>
+                <td>{{cen.center_code}}</td>
+                <td>{{cen.Email}}</td>
+                <td>{{cen.Username}}</td>
+                <td><a href="{% url 'centerstat' cen.center_code %}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>>
-                <td><a href="{%url 'subject_edit' sub.id%}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'subject_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{% url 'center_edit' cen.center_code %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'center_delete' cen.center_code %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% else %}
-                <td>{{sub.subject}}</td>
-                <td>{{sub.sub_category}}</td>
-                <td>{{sub.sub_category}}</td>
-                <td><a href="{% url 'subjstat' sub.id %}">
+                <td>{{cen.Name}}</td>
+                <td>{{cen.center_code}}</td>
+                <td>{{cen.Email}}</td>
+                <td>{{cen.Username}}</td>
+                <td><a href="{% url 'centerstat' cen.center_code %}">
                   <button class="btn btn-success" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Activate</button> </a></td>>
-                <td><a href="{%url 'subject_edit' sub.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'subject_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{% url 'center_edit' cen.center_code %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'center_delete' cen.center_code %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 
                 {% endif %}
               </tr>

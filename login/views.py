@@ -178,3 +178,66 @@ def load_sub(request):
     category_id = request.GET.get('category')
     sub_category = sub_categories.objects.filter(category_id=category_id).order_by('date_created')
     return render(request, 'login/option.html', {'sub_category': sub_category})
+
+def center(request):
+	center=Center.objects.all().order_by('center_code')
+	if request.method=='POST':
+		post=Center()
+		post.center_code=request.POST.get('code')
+		post.Name=request.POST.get('name')
+		post.Address=request.POST.get('address')
+		post.Email=request.POST.get('email')
+		post.Username=request.POST.get('user')
+		post.Password=request.POST.get('password')
+		post.save()
+		return redirect('/OnlineExam/login/Center/')
+
+
+	return render(request, 'login/center.html', {'center':center})
+
+def centerstat(request, pk,):
+	statc = get_object_or_404(Center, pk=pk)   
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/Center/')
+	return render(request, 'login/statc.html', {'statc': statc})
+
+def centerDelete(request, pk,):
+    cendelete = get_object_or_404(Center, pk=pk)    
+    if request.method=='POST':
+        cendelete.delete()
+        return redirect('/OnlineExam/login/Center/')
+    return render(request, 'login/delete.html', {'cendelete': cendelete})
+
+def CenEdit(request, pk,):
+	cenedit = get_object_or_404(Center, pk=pk)   
+	if request.method=='POST':
+		cenedit.Name=request.POST.get('name')
+		cenedit.Address=request.POST.get('address')
+		cenedit.Email=request.POST.get('email')
+		cenedit.Username=request.POST.get('user')
+		cenedit.Password=request.POST.get('password')
+		cenedit.save()
+		return redirect('/OnlineExam/login/Center/')
+	return render(request, 'login/cenedit.html', {'cenedit': cenedit})
+
+def student(request):
+	student = Student.objects.all().order_by('id')
+	center=Center.objects.all().order_by('center_code')
+	categories_list = Categories.objects.all().order_by('-date_created')
+	if request.method=='POST':
+		post=Student()
+		post.category_id=request.POST.get('category')
+		post.center_id=request.POST.get('center')
+		post.Name=request.POST.get('name')
+		post.father_name=request.POST.get('fname')
+		post.mother_name=request.POST.get('mname')
+		post.DOB = request.POST.get('date')
+		post.Phone = request.POST.get('phone')
+		post.Address = request.POST.get('address')
+		post.Email=request.POST.get('email')
+		post.Password=request.POST.get('password')
+		post.save()
+		return redirect('/OnlineExam/login/Student/')
+	return render(request, 'student.html', {'student':student, 'center':center, 'categories': categories_list})

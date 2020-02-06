@@ -31,20 +31,41 @@
   <div class="row">
     <div class="column" style="background-color:#dde;">
       <br>
-      <h3><b><center>Add Sub category</center></b></h3>
+      <h3><b><center>Add Student</center></b></h3>
       <form  method="POST" class="example" action="">
         {% csrf_token %}
         <div class="input-group">
           
-            <select class="custom-select col-4" name="category_id" aria-label="Example select with button addon">
+            <select class="custom-select col-4" name="category" aria-label="Example select with button addon">
               <option selected>Category</option>
               {% for categorie in categories %}
               <option value="{{categorie.id}}">{{categorie.category}}</option>
               {% endfor %}
             </select>
+            <select class="custom-select col-4" name="center" aria-label="Example select with button addon">
+                <option selected>Center</option>
+                {% for c in center %}
+                <option value="{{c.center_code}}">{{c.Name}}</option>
+                {% endfor %}
+              </select>
           </div>
-        <input type="text" placeholder="Sub category" name="sub_category" required>
-        <button type="submit">ADD</button>
+          <label>Student Name</label>
+          <input type="text" placeholder="Name" name="name" required>
+          <label>Father Name</label>
+          <input type="text" placeholder="Father Name" name="fname" required><br>
+          <label>Mother Name</label>
+          <input type="text" placeholder="Mother Name" name="mname" required><br>
+          <label>Date Of Birth</label>
+          <input type="date" placeholder="" name="date" required><br>
+          <label>Address</label>
+          <textarea  placeholder="Address" name="address" rows="2" cols="40" required></textarea>
+          <label>Phone</label>
+          <input type="text" placeholder="9998887776" name="phone" required><br>
+          <label>Email</label>
+          <input type="email" placeholder="Email" name="email" required>
+          <label>Password</label>
+          <input type="password" placeholder="Password" name="password" required>
+          <button type="submit">ADD</button>
       </form>
       <hr>
       <div>
@@ -53,29 +74,37 @@
             <thead>
               <tr>
               
-                <th onclick="sortTable(0)">Sub category <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">Category</th>
+                <th onclick="sortTable(0)">Category Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Center Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(2)">Student Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(3)">Father Name <i class="fa fa-sort"></i></th>
                 <th>Status</th>
                 <th>Option</th>
               </tr>
             </thead>
             <tbody>
-              {% for sub_categorie in sub_categories %}
+              {% for std in student %}
               <tr>
-                {% if sub_categorie.status == True %}
-                <td>{{sub_categorie.sub_category}}</td>
-                <td>{{sub_categorie.category}}</td>
-                
+                {% if std.status == True %}
+                <td>{{std.category}}</td>
+                <td>{{std.center}}</td>
+                <td>{{std.Name}}</td>
+                <td>{{std.father_name}}</td>
+
                
-                <td><a href="{% url 'substat' sub_categorie.id %}">
+                <td><a href="">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
               
-                <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% else %}
-               <td>{{sub_categorie.sub_category}}</td>
-                <td>{{sub_categorie.category}}</td>
-                <td><a href="{% url 'substat' sub_categorie.id %}"><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
-                <td><a href="{% url 'subcategory_edit' sub_categorie.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'Sub_Category_delete' sub_categorie.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td>{{std.category}}</td>
+                <td>{{std.center}}</td>
+                <td>{{std.Name}}</td>
+                <td>{{std.father_name}}</td>
+
+               
+                <td><a href=""><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 {% endif %}
 
               </tr>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %} 
+{% block content%}
+<!--  End of Welcome nav bar -->
+
+<!--  Content -->
+
+<h1><u><b><center>Edit Center</center></b></u></h1>
+
+<div class="border">
+  <div class="container">
+  
+      <hr>
+      <h3><b><center>Edit Center</center></b></h3>
+      <form  method="POST" action="">
+        {% csrf_token %}
+        <div class="input-group">
+            <label>Center Name</label>
+            <input type="text" placeholder="{{cenedit.Name}}" name="name" required><br>
+            <label>Address</label>
+            <textarea  placeholder="Address" name="address" rows="2" cols="40" required></textarea>
+            <label>Email</label>
+            <input type="email" placeholder="Email" name="email" required>
+            <label>User Name</label>
+            <input type="text" placeholder="User Name" name="user" required>
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password" required>
+            <button type="submit">Edit</button>
+        </form>
+    </div>
+  </div>    
+</div>
+</body>
+{%endblock%}

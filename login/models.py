@@ -44,3 +44,30 @@ class Subjects(models.Model):
 	status = models.BooleanField(default=True)
 	def __str__(self):
 	 return f'{self.subject}'
+
+
+class Center(models.Model):
+	center_code=models.IntegerField(primary_key=True)
+	Name = models.CharField(max_length=200)
+	Address = models.TextField()
+	Email = models.EmailField(max_length=200)
+	Username = models.CharField(max_length=200)
+	Password = models.CharField(max_length=200)
+	status = models.BooleanField(default=True)
+	def __str__(self):
+		return self.Name
+class Student(models.Model):
+	id= models.AutoField(primary_key=True)
+	category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='student_category')
+	center = models.ForeignKey(Center, on_delete=models.CASCADE, related_name='student_center')
+	Name = models.CharField(max_length=200)
+	father_name= models.CharField(max_length=200)
+	mother_name = models.CharField(max_length=200)
+	DOB = models.DateField()
+	Address = models.TextField()
+	Phone = models.BigIntegerField()
+	Email = models.EmailField()
+	status = models.BooleanField(default=True)
+	Password = models.CharField(max_length=200)
+	def __str__(self):
+	 return self.Name

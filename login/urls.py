@@ -12,16 +12,23 @@ urlpatterns = [
     path('login/category/', views.category ,name='category'), 
     path('login/sub_category/', views.sub_category ,name='sub_category'),
     path('login/Subject/', views.Subject ,name='subject'),  
+    path('login/Center/', views.center, name='center'),
+    path('login/Student/', views.student, name='student'),
     path('delete/<int:pk>', views.CategoryDelete , name='Category_delete'),
     path('delete_SubCategory/<int:pk>', views.SubCategoryDelete , name='Sub_Category_delete'),
     path('delete_Subject/<int:pk>', views.SubjectDelete , name='subject_delete'),
-    path('Edit/<int:pk>', views.Categoryedit , name='category_edit'),
-    path('Edit_Subcategory/<int:pk>', views.subcategoryedit , name='subcategory_edit'),
-    path('Edit_Subject/<int:pk>', views.SubjectEdit , name='subject_edit'),
-    path('Status_Subcategory/<int:pk>', views.substat , name='substat'),
-    path('Status_category/<int:pk>', views.cstat , name='statc'),
-    path('Status_subject/<int:pk>', views.subjectstat , name='subjstat'),
-    path('load-subject', views.load_sub, name='loadsub'),
+    path('Edit/<int:pk>/', views.Categoryedit , name='category_edit'),
+    path('Edit_Subcategory/<int:pk>/', views.subcategoryedit , name='subcategory_edit'),
+    path('Edit_Subject/<int:pk>/', views.SubjectEdit , name='subject_edit'),
+    path('Status_Subcategory/<int:pk>/', views.substat , name='substat'),
+    path('Status_category/<int:pk>/', views.cstat , name='statc'),
+    path('Status_subject/<int:pk>/', views.subjectstat , name='subjstat'),
+    path('load-subject/', views.load_sub, name='loadsub'),
+    path('Status_Center/<int:pk>', views.centerstat , name='centerstat'),
+    path('Edit_Center/<int:pk>/', views.CenEdit , name='center_edit'),
+    path('delete_Center/<int:pk>', views.centerDelete , name='center_delete'),
+
+
 
 ]    
 
