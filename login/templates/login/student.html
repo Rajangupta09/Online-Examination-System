@@ -58,10 +58,10 @@
                 <td>{{std.father_name}}</td>
 
                
-                <td><a href="">
+                <td><a href="{% url 'stustat' std.id %}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
               
-                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{% url 'student_edit' std.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'student_delete' std.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash"> </i> Delete</button></a></td>
                 {% else %}
                 <td>{{std.category}}</td>
                 <td>{{std.center}}</td>
@@ -69,8 +69,8 @@
                 <td>{{std.father_name}}</td>
 
                
-                <td><a href=""><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
-                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                <td><a href="{% url 'statc' std.id %}"><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
+                <td><a href="{% url 'student_edit' std.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'student_delete' std.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash"> </i> Delete</button></a></td>
                 {% endif %}
 
               </tr>

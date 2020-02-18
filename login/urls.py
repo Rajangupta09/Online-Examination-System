@@ -32,13 +32,13 @@ urlpatterns = [
     path('Edit_Subcategory/<int:pk>/', views.subcategoryedit , name='subcategory_edit'),
     path('Edit_Subject/<int:pk>/', views.SubjectEdit , name='subject_edit'),
     path('Edit_Center/<int:pk>/', views.CenEdit , name='center_edit'),
-    path('Edit/<int:pk>/', views.studentEdit , name='student_edit'),
+    path('Edit_Student/<int:pk>/', views.studentEdit , name='student_edit'),
     path('Edit_Exam/<int:pk>/', views.examedit , name='exam_edit'),
     path('Edit_Question/<int:pk>/', views.quesedit , name='ques_edit'),
 
 
 
-    path('Status_Student/<int:pk>/', views.studentstat , name='statc'),
+    path('Status_Student/<int:pk>/', views.studentstat , name='stustat'),
     path('Status_Subcategory/<int:pk>/', views.substat , name='substat'),
     path('Status_category/<int:pk>/', views.cstat , name='statc'),
     path('Status_subject/<int:pk>/', views.subjectstat , name='subjstat'),

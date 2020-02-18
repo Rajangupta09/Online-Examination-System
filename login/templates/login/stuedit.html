@@ -1,0 +1,97 @@
+{% extends 'base.html' %} 
+{% block content%}
+<div class="card pt-4 pb-5 mt-3">
+
+<h3><b><center>Edit Student</center></b></h3>
+<br /><hr />
+  <form  method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom03"><strong>Category <span class="red">*</span></strong></label>
+        <select class="custom-select" name="category" aria-label="Example select" required>
+          <option value="">Category</option>
+          {% for categorie in categories %}
+          <option value="{{categorie.id}}">{{categorie.category}}</option>
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+          Select a valid category
+   </div>
+      </div>
+      <div class="col-md-8 mb-3 offset-md-2">
+        <label for="validationCustom03"><strong>Center <span class="red">*</span></strong></label>
+
+        <select class="custom-select" name="center" aria-label="Example select" required>
+            <option value="">Center</option>
+            {% for c in center %}
+            <option value="{{c.center_code}}">{{c.Name}}</option>
+            {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+         Select a valid Center
+   </div>
+      </div>
+      
+      <div class="col-md-8 mb-3 offset-md-2">
+        <label for="validationCustom01"><strong>Student Name <span class="red">*</span></strong></label>
+          <input type="text" class="form-control" placeholder="Name" name="name" required>
+          <div class="invalid-feedback">
+            Student name cannot be empty!
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom02"><strong>Father Name <span class="red">*</span></strong></label>
+          <input type="text" class="form-control" placeholder="Father Name" name="fname" required>
+          <div class="invalid-feedback">
+            Father name cannot be empty!
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom03"><strong>Mother Name <span class="red">*</span></strong></label>
+          <input type="text" class="form-control" placeholder="Mother Name" name="mname" required>
+          <div class="invalid-feedback">
+            Mother name cannot be empty!
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom04"><strong>Date of Birth <span class="red">*</span></strong></label>
+          <input type="date" class="form-control" name="date" required>
+          <div class="invalid-feedback">
+            Cannot be empty
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom05"><strong>Address <span class="red">*</span></strong></label>
+          <textarea  class="form-control" placeholder="Address" name="address" rows="2" cols="40" required></textarea>
+          <div class="invalid-feedback">
+            Address cannot be empty!
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom05"><strong>Phone <span class="red">*</span></strong></label>
+          <input type="text" class="form-control" placeholder="9998887776" name="phone" required>
+          <div class="invalid-feedback">
+            Phone number cannot be empty
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom06"><strong>Email <span class="red">*</span></strong></label>
+          <input type="email" class="form-control " placeholder="Email" name="email" required>
+          <div class="invalid-feedback">
+            Please provide a valid email address.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom07"><strong>Password <span class="red">*</span></strong></label>
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
+          <div class="invalid-feedback">
+            Please provide a valid Password.
+          </div>
+          <br/>
+          <button class="btn btn-success" type="submit">Edit</button>
+         
+          </div>
+      </form>
+      </div>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% block content%}
 <div class="mb-3 mt-3 pt-5 pb-5 card">
-<h3><b><center>Add Category</center></b></h3>
+<h3><b><center>Edit Category</center></b></h3>
 <form  method="POST" class="needs-validation" novalidate>
   {% csrf_token %}
   <div class="col-md-8 mb-3 offset-md-2">
@@ -13,7 +13,7 @@
  <br/>
   <button class="btn btn-success" id="load" type="submit">
     <span id="gif"></span>
-    ADD
+    Edit
   </button>
 
 

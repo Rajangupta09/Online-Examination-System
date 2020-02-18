@@ -10,7 +10,7 @@ from django.db.models import Q
 def login(request):
 	if(request.method=="POST"):
 		params=request.POST
-		user=auth.authenticate(params['username'], params['password'])
+		user=authenticate(params['username'], params['password'])
 		if(user is not None):
 			login(request, User.objects.get(user__username=params['username']))
 			messages.success(request, 'Your request has been submitted')
@@ -60,11 +60,12 @@ def category(request):
 
 
 def CategoryDelete(request, pk,):
-    cdelete = get_object_or_404(Categories, pk=pk)    
-    if request.method=='POST':
-        cdelete.delete()
-        return redirect('/OnlineExam/login/category')
-    return render(request, 'login/delete.html', {'cdelete': cdelete})
+	cdelete = get_object_or_404(Categories, pk=pk)    
+	if request.method=='POST':
+		cdelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/category')
+	return render(request, 'login/delete.html', {'cdelete': cdelete})
 
 
 def Categoryedit(request, pk,):
@@ -72,6 +73,7 @@ def Categoryedit(request, pk,):
 	if request.method=='POST':
 		cedit.category=request.POST.get('category')
 		cedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/category')
 	return render(request, 'login/cedit.html',{'cedit': cedit})
 
@@ -80,6 +82,7 @@ def cstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/category')
 	return render(request, 'login/statc.html',{'statc': statc})
 
@@ -125,15 +128,17 @@ def subcategoryedit(request, pk,):
 		sedit.sub_category=request.POST.get('sub_category')
 		sedit.category_id=request.POST.get('category_id')
 		sedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/sub_category')
 	return render(request, 'login/sedit.html', {'sedit': sedit,'categories':categories_list})
 
 def SubCategoryDelete(request, pk,):
-    sdelete = get_object_or_404(sub_categories, pk=pk)    
-    if request.method=='POST':
-        sdelete.delete()
-        return redirect('/OnlineExam/login/sub_category')
-    return render(request, 'login/delete.html', {'sdelete': sdelete})
+	sdelete = get_object_or_404(sub_categories, pk=pk)    
+	if request.method=='POST':
+		sdelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/sub_category')
+	return render(request, 'login/delete.html', {'sdelete': sdelete})
 
 def substat(request, pk,):
 	statc = get_object_or_404(sub_categories, pk=pk)   
@@ -141,6 +146,7 @@ def substat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/sub_category')
 	return render(request, 'login/statc.html', {'statc': statc,'categories':categories_list})
 
@@ -160,6 +166,7 @@ def Subject(request):
 		post.category_id=request.POST.get('category')
 		post.sub_category_id=request.POST.get('sub_category')
 		post.subject=request.POST.get('subject')
+		messages.success(request, 'Your request has been submitted')
 		post.save()
 		subject_list = Subjects.objects.all().order_by('-date_created')
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
@@ -179,11 +186,12 @@ def Subject(request):
 	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,'categories':categories_list,'list':dis,'total':total})          
 
 def SubjectDelete(request, pk,):
-    subdelete = get_object_or_404(Subjects, pk=pk)    
-    if request.method=='POST':
-        subdelete.delete()
-        return redirect('/OnlineExam/login/Subject/')
-    return render(request, 'login/delete.html', {'subdelete': subdelete})
+	subdelete = get_object_or_404(Subjects, pk=pk)    
+	if request.method=='POST':
+		subdelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/Subject/')
+	return render(request, 'login/delete.html', {'subdelete': subdelete})
 
 def SubjectEdit(request, pk,):
 	Subedit = get_object_or_404(Subjects, pk=pk)   
@@ -193,6 +201,7 @@ def SubjectEdit(request, pk,):
 		Subedit.sub_category_id=request.POST.get('sub_category')
 		Subedit.subject=request.POST.get('subject')
 		Subedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Subject')
 	return render(request, 'login/subedit.html', {'Subedit': Subedit,'categories':categories_list,'sub_categories':sub_categories_list})
 
@@ -202,6 +211,7 @@ def subjectstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Subject/')
 	return render(request, 'login/statc.html', {'statc': statc})
 
@@ -229,6 +239,7 @@ def center(request):
 		post.Email=request.POST.get('email')
 		post.Username=request.POST.get('user')
 		post.Password=request.POST.get('password')
+		messages.success(request, 'Your request has been submitted')
 		post.save()
 		return redirect('/OnlineExam/login/Center/')
 	if 'search' in request.GET:
@@ -248,15 +259,17 @@ def centerstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Center/')
 	return render(request, 'login/statc.html', {'statc': statc})
 
 def centerDelete(request, pk,):
-    cendelete = get_object_or_404(Center, pk=pk)    
-    if request.method=='POST':
-        cendelete.delete()
-        return redirect('/OnlineExam/login/Center/')
-    return render(request, 'login/delete.html', {'cendelete': cendelete})
+	cendelete = get_object_or_404(Center, pk=pk)    
+	if request.method=='POST':
+		cendelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/Center/')
+	return render(request, 'login/delete.html', {'cendelete': cendelete})
 
 def CenEdit(request, pk,):
 	cenedit = get_object_or_404(Center, pk=pk)   
@@ -267,6 +280,7 @@ def CenEdit(request, pk,):
 		cenedit.Username=request.POST.get('user')
 		cenedit.Password=request.POST.get('password')
 		cenedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Center/')
 	return render(request, 'login/cenedit.html', {'cenedit': cenedit})
 
@@ -295,6 +309,7 @@ def student(request):
 		post.Email=request.POST.get('email')
 		post.Password=request.POST.get('password')
 		post.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Student/')
 
 	if 'search' in request.GET:
@@ -315,15 +330,17 @@ def studentstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Student/')
 	return render(request, 'login/statc.html', {'statc': statc})
 
 def studentDelete(request, pk,):
-    studelete = get_object_or_404(Student, pk=pk)    
-    if request.method=='POST':
-        studelete.delete()
-        return redirect('/OnlineExam/login/Student/')
-    return render(request, 'login/delete.html', {'studelete': studelete})
+	studelete = get_object_or_404(Student, pk=pk)    
+	if request.method=='POST':
+		studelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/Student/')
+	return render(request, 'login/delete.html', {'studelete': studelete})
 
 def studentEdit(request, pk,):
 	stuedit = get_object_or_404(Student, pk=pk)   
@@ -339,7 +356,8 @@ def studentEdit(request, pk,):
 		stuedit.Email=request.POST.get('email')
 		stuedit.Password=request.POST.get('password')
 		stuedit.save()
-		return redirect('/OnlineExam/login/Center/')
+		messages.success(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/Student/')
 	return render(request, 'login/stuedit.html', {'stuedit': stuedit})
 
 def exam(request):
@@ -393,15 +411,17 @@ def examstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')		
 		return redirect('OnlineExam/login/Exam/')
 	return render(request, 'login/statc.html', {'statc': statc})
 
 def examDelete(request, pk,):
-    examdelete = get_object_or_404(Exam, pk=pk)    
-    if request.method=='POST':
-        examdelete.delete()
-        return redirect('OnlineExam/login/Exam/')
-    return render(request, 'login/delete.html', {'examdelete': examdelete})
+	examdelete = get_object_or_404(Exam, pk=pk)    
+	if request.method=='POST':
+		examdelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('OnlineExam/login/Exam/')
+	return render(request, 'login/delete.html', {'examdelete': examdelete})
 
 def examedit(request, pk,):
 	examedit = get_object_or_404(Exam, pk=pk)   
@@ -415,6 +435,7 @@ def examedit(request, pk,):
 		examedit.tandc=request.POST.get('tc')
 		examedit.resultonmail=request.POST.get('rm')
 		examedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('OnlineExam/login/Exam/') 
 	return render(request, 'login/examedit.html', {'examedit': examedit})
 
@@ -438,6 +459,7 @@ def question(request):
 		post.option4=request.POST.get('option4')
 		post.answer=request.POST.get('answer')
 		post.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Question/')
 
 	if 'search' in request.GET:
@@ -458,15 +480,17 @@ def quesstat(request, pk,):
 	if request.method=='POST':
 		statc.status=request.POST.get('status')
 		statc.save()
+		messages.info(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Question/')
 	return render(request, 'login/statc.html', {'statc': statc})
 
 def quesDelete(request, pk,):
-    quesdelete = get_object_or_404(Question, pk=pk)    
-    if request.method=='POST':
-        quesdelete.delete()
-        return redirect('/OnlineExam/login/Exam/')
-    return render(request, 'login/delete.html', {'examdelete': quesdelete})
+	quesdelete = get_object_or_404(Question, pk=pk)    
+	if request.method=='POST':
+		quesdelete.delete()
+		messages.info(request, 'Your request has been submitted')
+		return redirect('/OnlineExam/login/Exam/')
+	return render(request, 'login/delete.html', {'examdelete': quesdelete})
 
 def quesedit(request, pk,):
 	quesedit = get_object_or_404(Question, pk=pk) 
@@ -481,5 +505,6 @@ def quesedit(request, pk,):
 		quesedit.option4=request.POST.get('option4')
 		quesedit.answer=request.POST.get('answer')
 		quesedit.save()
+		messages.success(request, 'Your request has been submitted')
 		return redirect('/OnlineExam/login/Question/') 
 	return render(request, 'login/quesedit.html', {'quesedit': quesedit,'exam':exam_list})
