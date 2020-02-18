@@ -1,33 +1,54 @@
 {% extends 'base.html' %} 
 {% block content%}
-<!--  End of Welcome nav bar -->
-
-<!--  Content -->
-
-<h1><u><b><center>Edit Center</center></b></u></h1>
-
-<div class="border">
-  <div class="container">
-  
-      <hr>
-      <h3><b><center>Edit Center</center></b></h3>
-      <form  method="POST" action="">
-        {% csrf_token %}
-        <div class="input-group">
-            <label>Center Name</label>
-            <input type="text" placeholder="{{cenedit.Name}}" name="name" required><br>
-            <label>Address</label>
-            <textarea  placeholder="Address" name="address" rows="2" cols="40" required></textarea>
-            <label>Email</label>
-            <input type="email" placeholder="Email" name="email" required>
-            <label>User Name</label>
-            <input type="text" placeholder="User Name" name="user" required>
-            <label>Password</label>
-            <input type="password" placeholder="Password" name="password" required>
-            <button type="submit">Edit</button>
-        </form>
+<div class="card mt-2 pt-5 pb-5">
+<h3><b><center>Add Center</center></b></h3>
+      
+<form  method="POST" id="subform" class="needs-validation" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom01"><strong>Center Code <span class="red">*</span></strong></label>
+    <input type="number" class="form-control" placeholder="Center Code" name="code" min="99999" required>
+    <div class="invalid-feedback">
+        Please provide a valid center code.
     </div>
-  </div>    
 </div>
-</body>
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom02"><strong>Center Name <span class="red">*</span></strong></label>
+  <input type="text" class="form-control" placeholder="Center Name" name="name" required>
+  <div class="invalid-feedback">
+    Please provide a valid center Name
+</div>
+</div>
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom03"><strong>Address <span class="red">*</span></strong></label>
+  <textarea  placeholder="Address" class="form-control" name="address" rows="2" cols="40" required></textarea>
+  <div class="invalid-feedback">
+    Please provide a valid Address
+</div>
+</div>
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom04"><strong>Email <span class="red">*</span></strong></label>
+  <input type="email" class="form-control" placeholder="Email" name="email" required>
+  <div class="invalid-feedback">
+    Please provide a valid Email address
+</div>
+</div>
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom05"><strong>User Name <span class="red">*</span></strong></label>
+  <input type="text" class="form-control" placeholder="User Name" name="user" required>
+  <div class="invalid-feedback">
+    Please provide a valid User name.
+</div>
+</div>
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom01"><strong>Password <span class="red">*</span></strong></label>
+  <input type="password" class="form-control" placeholder="Password" name="password" required>
+  <div class="invalid-feedback">
+    Please provide a valid Password
+</div>
+ <br/>
+  <button class="btn btn-success"type="submit">ADD</button>
+</div>
+</form>
+</div>
 {%endblock%}

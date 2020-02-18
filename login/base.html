@@ -277,11 +277,13 @@
         }, false);
     })();
 
-    $('button').click(function(){
-    if($("input").hasClass("is-valid")){
-        $('#gif').addClass("spinner-border spinner-border-sm");
-    };
-    });
+
+    $('#view').keydown(function() {
+var key = e.which;
+if (key == 13) {
+$('#view').submit(); 
+}
+});
 </script>
 
 <script  src="{% static 'login/js/category.js' %}"></script>

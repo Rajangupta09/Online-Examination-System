@@ -1,20 +1,16 @@
 {% extends 'base.html' %} 
 {% block content%}
-<h1><u><b><center>Confirm Delete</center></b></u></h1>
+<div class="card pt-5 pb-5 mt-3">
+<h3><u><b><center>Confirm Delete</center></b></u></h3>
+<br /><br />
+<br />
 
-<div class="border">
-  <div class="container">
-  
-      <hr>
-      <div  style="display: flex;">
+  <div class="m-auto">
           <form  method="POST"  action="">
             {% csrf_token %}
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
-
-      </div>    
-    </div>
-  </div>    
+  </div>
 </div>
-</body>
+
 {%endblock%}

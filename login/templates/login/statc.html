@@ -1,24 +1,25 @@
 {% extends 'base.html' %} 
 {% block content%}
-<h1><u><b><center>Edit Status</center></b></u></h1>
 
-<div class="border">
-  <div class="container">
-  
-      <hr>
+<div class="card pt-4 pb-5 mt-3">
       <h3><b><center>Edit Status</center></b></h3>
+      <br /> <hr />
+      <div class="m-auto">
+
       <form  method="POST" action="">
         {% csrf_token %}
         {% if statc.status is True %}
         <input type="hidden" placeholder="{{statc.status}}" name="status" value="False">
         <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button>
         {% else %}
+
+        
         <input type="hidden" placeholder="{{statc.status}}" name="status" value="True">
+
         <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button>
         {% endif %}
+        </div>
     </form>
     </div>
-  </div>    
-</div>
-</body>
+ 
 {%endblock%}

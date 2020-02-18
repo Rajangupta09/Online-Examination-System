@@ -24,6 +24,7 @@ urlpatterns = [
     path('delete/<int:pk>', views.CategoryDelete , name='Category_delete'),
     path('delete_SubCategory/<int:pk>', views.SubCategoryDelete , name='Sub_Category_delete'),
     path('delete_Subject/<int:pk>', views.SubjectDelete , name='subject_delete'),
+    path('delete_Question/<int:pk>', views.quesDelete , name='ques_delete'),
 
 
 
@@ -32,8 +33,8 @@ urlpatterns = [
     path('Edit_Subject/<int:pk>/', views.SubjectEdit , name='subject_edit'),
     path('Edit_Center/<int:pk>/', views.CenEdit , name='center_edit'),
     path('Edit/<int:pk>/', views.studentEdit , name='student_edit'),
-    path('Edit_Center/<int:pk>/', views.CenEdit , name='center_edit'),
     path('Edit_Exam/<int:pk>/', views.examedit , name='exam_edit'),
+    path('Edit_Question/<int:pk>/', views.quesedit , name='ques_edit'),
 
 
 
@@ -43,6 +44,7 @@ urlpatterns = [
     path('Status_subject/<int:pk>/', views.subjectstat , name='subjstat'),
     path('Status_Center/<int:pk>', views.centerstat , name='centerstat'),
     path('Status_Exam/<int:pk>/', views.examstat , name='examstat'),
+    path('Status_Question/<int:pk>/', views.quesstat , name='quesstat'),
 
 
 

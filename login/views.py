@@ -7,8 +7,6 @@ from django.contrib import messages
 from django.db.models import Q
 
 
-
-
 def login(request):
 	if(request.method=="POST"):
 		params=request.POST
@@ -28,9 +26,13 @@ def dashboard(request):
 	return render(request , 'login/dashboard.html')	
 
 
+
+#Category
 def category(request):
 	categories_list = Categories.objects.all().order_by('-date_created')
-	paginator = Paginator(categories_list, 10)
+	total = Categories.objects.count()
+	dis=10
+	paginator = Paginator(categories_list, dis)
 	page = request.GET.get('page')
 	search_term=''
 	paged_categorie = paginator.get_page(page)
@@ -48,13 +50,46 @@ def category(request):
 		return render(request, 'login/category.html',{'categories':categories_list,'search_term':search_term}) 
 
 
-	return render(request, 'login/category.html',{'categories':paged_categorie,'search_term':search_term}) 
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(categories_list, dis)
+		page = request.GET.get('page')
+		paged_categorie = paginator.get_page(page)
+		return render(request, 'login/category.html',{'categories':paged_categorie, 'list':dis,'total':total}) 
+	return render(request, 'login/category.html',{'categories':paged_categorie, 'list':dis,'total':total}) 
 
 
+def CategoryDelete(request, pk,):
+    cdelete = get_object_or_404(Categories, pk=pk)    
+    if request.method=='POST':
+        cdelete.delete()
+        return redirect('/OnlineExam/login/category')
+    return render(request, 'login/delete.html', {'cdelete': cdelete})
+
+
+def Categoryedit(request, pk,):
+	cedit = get_object_or_404(Categories, pk=pk)    
+	if request.method=='POST':
+		cedit.category=request.POST.get('category')
+		cedit.save()
+		return redirect('/OnlineExam/login/category')
+	return render(request, 'login/cedit.html',{'cedit': cedit})
+
+def cstat(request, pk,):
+	statc = get_object_or_404(Categories, pk=pk)    
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/category')
+	return render(request, 'login/statc.html',{'statc': statc})
+
+#SUB CATEGORY
 def sub_category(request):
 	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
+	total = sub_categories.objects.count()
 	categories_list = Categories.objects.all().order_by('-date_created')
-	paginator = Paginator(sub_categories_list, 10)
+	dis=10
+	paginator = Paginator(sub_categories_list, dis)
 	page = request.GET.get('page')
 	search_term=''
 	paged_subcategorie = paginator.get_page(page)
@@ -73,30 +108,15 @@ def sub_category(request):
 		sub_categories_list=sub_categories_list.filter( sub_category__icontains=search_term)
 		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list, 'search_term':search_term}) 
 
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(sub_categories_list, dis)
+		page = request.GET.get('page')
+		paged_subcategorie = paginator.get_page(page)
+		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':paged_subcategorie, 'list':dis,'total':total})          
 
-	return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':paged_subcategorie,})          
+	return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':paged_subcategorie, 'list':dis,'total':total})          
 
-def CategoryDelete(request, pk,):
-    cdelete = get_object_or_404(Categories, pk=pk)    
-    if request.method=='POST':
-        cdelete.delete()
-        return redirect('/OnlineExam/login/category')
-    return render(request, 'login/delete.html', {'cdelete': cdelete})
-
-def SubCategoryDelete(request, pk,):
-    sdelete = get_object_or_404(sub_categories, pk=pk)    
-    if request.method=='POST':
-        sdelete.delete()
-        return redirect('/OnlineExam/login/sub_category')
-    return render(request, 'login/delete.html', {'sdelete': sdelete})
-
-def Categoryedit(request, pk,):
-	cedit = get_object_or_404(Categories, pk=pk)    
-	if request.method=='POST':
-		cedit.category=request.POST.get('category')
-		cedit.save()
-		return redirect('/OnlineExam/login/category')
-	return render(request, 'login/cedit.html',{'cedit': cedit})
 
 def subcategoryedit(request, pk,):
 	sedit = get_object_or_404(sub_categories, pk=pk)   
@@ -108,6 +128,12 @@ def subcategoryedit(request, pk,):
 		return redirect('/OnlineExam/login/sub_category')
 	return render(request, 'login/sedit.html', {'sedit': sedit,'categories':categories_list})
 
+def SubCategoryDelete(request, pk,):
+    sdelete = get_object_or_404(sub_categories, pk=pk)    
+    if request.method=='POST':
+        sdelete.delete()
+        return redirect('/OnlineExam/login/sub_category')
+    return render(request, 'login/delete.html', {'sdelete': sdelete})
 
 def substat(request, pk,):
 	statc = get_object_or_404(sub_categories, pk=pk)   
@@ -118,19 +144,14 @@ def substat(request, pk,):
 		return redirect('/OnlineExam/login/sub_category')
 	return render(request, 'login/statc.html', {'statc': statc,'categories':categories_list})
 
-def cstat(request, pk,):
-	statc = get_object_or_404(Categories, pk=pk)    
-	if request.method=='POST':
-		statc.status=request.POST.get('status')
-		statc.save()
-		return redirect('/OnlineExam/login/category')
-	return render(request, 'login/statc.html',{'statc': statc})
-
+#SUBJECT
 def Subject(request):
 	subject_list = Subjects.objects.all().order_by('-date_created')
+	total = Subjects.objects.count()
 	categories_list = Categories.objects.all().order_by('-date_created')
 	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
-	paginator = Paginator(subject_list, 10)
+	dis=10
+	paginator = Paginator(subject_list, dis)
 	page = request.GET.get('page')
 	search_term=''
 	paged_subject = paginator.get_page(page)
@@ -148,7 +169,14 @@ def Subject(request):
 		search_term = request.GET['search']
 		subject_list=subject_list.filter( subject__icontains=search_term)
 		return render(request, 'login/subject.html',{'Subject':subject_list, 'search_term':search_term})
-	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,'categories':categories_list})          
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(subject_list, dis)
+		page = request.GET.get('page')
+		paged_subject = paginator.get_page(page)
+		return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,'categories':categories_list,'list':dis,'total':total})          
+		
+	return render(request, 'login/subject.html',{'sub_categories':sub_categories_list,'Subject':paged_subject,'categories':categories_list,'list':dis,'total':total})          
 
 def SubjectDelete(request, pk,):
     subdelete = get_object_or_404(Subjects, pk=pk)    
@@ -159,13 +187,14 @@ def SubjectDelete(request, pk,):
 
 def SubjectEdit(request, pk,):
 	Subedit = get_object_or_404(Subjects, pk=pk)   
-	categories_list = sub_categories.objects.all().order_by('-date_created')
+	categories_list = Categories.objects.all().order_by('-date_created')
+	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 	if request.method=='POST':
 		Subedit.sub_category_id=request.POST.get('sub_category')
 		Subedit.subject=request.POST.get('subject')
 		Subedit.save()
 		return redirect('/OnlineExam/login/Subject')
-	return render(request, 'login/subedit.html', {'Subedit': Subedit,'categories':categories_list})
+	return render(request, 'login/subedit.html', {'Subedit': Subedit,'categories':categories_list,'sub_categories':sub_categories_list})
 
 
 def subjectstat(request, pk,):
@@ -181,8 +210,17 @@ def load_sub(request):
     sub_category = sub_categories.objects.filter(category_id=category_id).order_by('date_created')
     return render(request, 'login/option.html', {'sub_category': sub_category})
 
+
+#Center
 def center(request):
 	center=Center.objects.all().order_by('center_code')
+	total=Center.objects.count()
+	search_term=''
+	dis=10
+	paginator = Paginator(center, dis)
+	page = request.GET.get('page')
+	search_term=''
+	paged_center = paginator.get_page(page)
 	if request.method=='POST':
 		post=Center()
 		post.center_code=request.POST.get('code')
@@ -193,9 +231,17 @@ def center(request):
 		post.Password=request.POST.get('password')
 		post.save()
 		return redirect('/OnlineExam/login/Center/')
-
-
-	return render(request, 'login/center.html', {'center':center})
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		center=center.filter( Name__icontains=search_term)
+		return render(request, 'login/center.html',{'center': center,'search_term':search_term,}) 
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(center, dis)
+		page = request.GET.get('page')
+		paged_center = paginator.get_page(page)
+		return render(request, 'login/center.html', {'center':paged_center,'list':dis,'total':total})
+	return render(request, 'login/center.html', {'center':paged_center,'list':dis,'total':total})
 
 def centerstat(request, pk,):
 	statc = get_object_or_404(Center, pk=pk)   
@@ -226,8 +272,16 @@ def CenEdit(request, pk,):
 
 def student(request):
 	student = Student.objects.all().order_by('id')
+	total = Student.objects.count()
 	center=Center.objects.all().order_by('center_code')
 	categories_list = Categories.objects.all().order_by('-date_created')
+	search_term=''
+	dis=10
+	total = Student.objects.count()
+	paginator = Paginator(student, dis)
+	page = request.GET.get('page')
+	search_term=''
+	paged_student = paginator.get_page(page)
 	if request.method=='POST':
 		post=Student()
 		post.category_id=request.POST.get('category')
@@ -242,7 +296,19 @@ def student(request):
 		post.Password=request.POST.get('password')
 		post.save()
 		return redirect('/OnlineExam/login/Student/')
-	return render(request, 'login/student.html', {'student':student, 'center':center, 'categories': categories_list})
+
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		student=student.filter(Name__icontains=search_term)
+		return render(request, 'login/student.html',{'student':student,'search_term':search_term}) 
+
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(student, dis)
+		page = request.GET.get('page')
+		paged_student = paginator.get_page(page)
+		return render(request, 'login/student.html',{'student':paged_student, 'center':center, 'categories': categories_list, 'list':dis,'total':total}) 
+	return render(request, 'login/student.html', {'student':paged_student, 'center':center, 'categories': categories_list, 'list':dis,'total':total})
 
 def studentstat(request, pk,):
 	statc = get_object_or_404(Student, pk=pk)   
@@ -250,7 +316,7 @@ def studentstat(request, pk,):
 		statc.status=request.POST.get('status')
 		statc.save()
 		return redirect('/OnlineExam/login/Student/')
-	return render(request, 'student.html', {'statc': statc})
+	return render(request, 'login/statc.html', {'statc': statc})
 
 def studentDelete(request, pk,):
     studelete = get_object_or_404(Student, pk=pk)    
@@ -281,7 +347,9 @@ def exam(request):
 	categories_list = Categories.objects.all().order_by('-date_created')
 	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
 	exam_list = Exam.objects.all()
-	paginator = Paginator(exam_list, 10)
+	dis=10
+	total = Exam.objects.count()
+	paginator = Paginator(exam_list, dis)
 	page = request.GET.get('page')
 	search_term=''
 	paged_exam = paginator.get_page(page)
@@ -305,7 +373,13 @@ def exam(request):
 		search_term = request.GET['search']
 		exam_list=exam_list.filter(Name__icontains=search_term)
 		return render(request, 'login/exam.html',{'exam':exam_list, 'search_term':search_term})
-	return render(request, 'login/exam.html',{'sub_categories':sub_categories_list,'exam':paged_exam,'categories':categories_list})          
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(exam_list, dis)
+		page = request.GET.get('page')
+		paged_exam = paginator.get_page(page)
+		return render(request, 'login/exam.html',{'sub_categories':sub_categories_list,'exam':paged_exam,'categories':categories_list,'list':dis,'total':total})          
+	return render(request, 'login/exam.html',{'sub_categories':sub_categories_list,'exam':paged_exam,'categories':categories_list,'list':dis,'total':total})          
 
 def load_exam(request):
 	category_id = request.GET.get('category')
@@ -320,7 +394,7 @@ def examstat(request, pk,):
 		statc.status=request.POST.get('status')
 		statc.save()
 		return redirect('OnlineExam/login/Exam/')
-	return render(request, 'exam.html', {'statc': statc})
+	return render(request, 'login/statc.html', {'statc': statc})
 
 def examDelete(request, pk,):
     examdelete = get_object_or_404(Exam, pk=pk)    
@@ -346,7 +420,13 @@ def examedit(request, pk,):
 
 def question(request):
 	ques= Question.objects.all()
+	total= Question.objects.count()
 	exam_list = Exam.objects.all()
+	dis=10
+	paginator = Paginator(ques, dis)
+	page = request.GET.get('page')
+	search_term=''
+	paged_ques = paginator.get_page(page)
 	if(request.method=="POST"):
 		post=Question()
 		post.question=request.POST.get('editor1')
@@ -358,5 +438,48 @@ def question(request):
 		post.option4=request.POST.get('option4')
 		post.answer=request.POST.get('answer')
 		post.save()
-		return redirect('OnlineExam/login/Question/')
-	return render(request, 'login/question.html', {'Question': ques, 'exam':exam_list})
+		return redirect('/OnlineExam/login/Question/')
+
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		ques=ques.filter(question__icontains=search_term)
+		return render(request, 'login/question.html',{'exam':exam_list, 'Question': ques, 'search_term':search_term})
+	if 'view' in request.GET:
+		dis = request.GET['view']
+		paginator = Paginator(ques, dis)
+		page = request.GET.get('page')
+		paged_ques = paginator.get_page(page)
+		return render(request, 'login/question.html', {'Question': paged_ques, 'exam':exam_list,'list':dis,'total':total })
+	return render(request, 'login/question.html', {'Question': paged_ques, 'exam':exam_list,'list':dis,'total':total })
+
+	
+def quesstat(request, pk,):
+	statc = get_object_or_404(Question, pk=pk)   
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/Question/')
+	return render(request, 'login/statc.html', {'statc': statc})
+
+def quesDelete(request, pk,):
+    quesdelete = get_object_or_404(Question, pk=pk)    
+    if request.method=='POST':
+        quesdelete.delete()
+        return redirect('/OnlineExam/login/Exam/')
+    return render(request, 'login/delete.html', {'examdelete': quesdelete})
+
+def quesedit(request, pk,):
+	quesedit = get_object_or_404(Question, pk=pk) 
+	exam_list = Exam.objects.all()
+	if request.method=='POST':
+		quesedit.question=request.POST.get('editor1')
+		quesedit.marks=request.POST.get('marks')
+		quesedit.exam_name_id=request.POST.get('exam')
+		quesedit.option1=request.POST.get('option1')
+		quesedit.option2=request.POST.get('option2')
+		quesedit.option3=request.POST.get('option3')
+		quesedit.option4=request.POST.get('option4')
+		quesedit.answer=request.POST.get('answer')
+		quesedit.save()
+		return redirect('/OnlineExam/login/Question/') 
+	return render(request, 'login/quesedit.html', {'quesedit': quesedit,'exam':exam_list})

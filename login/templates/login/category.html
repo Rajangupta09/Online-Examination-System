@@ -65,10 +65,15 @@
               {% endfor %}
             </tbody>
           </table>
+          <br />
+          <form class="form-inline" id="view">
+            <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group"><label for="show" class="mr-sm-2">Show</label><input class="listd form-control col-4" name="view" id="show" placeholder="{{list}}" type="number" min="1"  max="{{total}}"  class="form-control"><label class=""> &nbsp;of {{total}} Entities</label></div>
+           </form>
+           <br/>
 </div>
         <br />
     <div class="row">
-      <div class="col-12">
+      <div class="m-auto">
         {% if categories.has_other_pages %}
           <div class="main-card mb-3">
                   <nav class="" aria-label="Page navigation example">
@@ -98,15 +103,14 @@
       </div>
 
     </div>
-  
-
+    
           <div class="tab-pane show" id="tab-eg115-1" role="tabpanel">
             <br />
             <h3><b><center>Add Category</center></b></h3>
             <form  method="POST" class="needs-validation" novalidate>
               {% csrf_token %}
               <div class="col-md-8 mb-3 offset-md-2">
-                <label for="validationCustom03">Category</label>
+                <label for="validationCustom03"><strong>Category <span class="red">*</span></strong></label>
                 <input type="text" class="form-control" id="validationCustom03" placeholder="Category" name="category" required>
                 <div class="invalid-feedback">
                     Please provide a valid category name.
@@ -122,13 +126,13 @@
             </form>
             <hr>
             </div>
-            
+          </div>
+
           </div>
 
 
        </div>
 
 
-        </div>
    
 {%endblock%}

@@ -8,8 +8,8 @@
 
   <div class="card-header card-header-tab-animation">
       <ul class="nav nav-justified">
-          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="nav-link show active"><i class="fa fa-database"></i>Exam List</a></li>
-          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link show"><i class="fa fa-plus"></i>Add Exam</a></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="nav-link show active"><i class="fa fa-database"></i> Exam List</a></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link show"><i class="fa fa-plus"></i> Add Exam</a></li>
       </ul>
   </div>
   <div class="card-body">
@@ -69,7 +69,7 @@
                 <td>{{sub.Name}}</td>
 
                 <td><a href="{% url 'examstat' sub.id %}">
-                  <button class="btn btn-success" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Activate</button> </a></td>>
+                  <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>>
                 <td><a href="{%url 'exam_edit' sub.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'exam_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
                 
                 {% endif %}
@@ -77,35 +77,44 @@
               {% endfor %}
             </tbody>
           </table>
+          <br />
+          <form class="form-inline" id="view">
+            <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group"><label for="show" class="mr-sm-2">Show</label><input class="listd form-control col-4" name="view" id="show" placeholder="{{list}}" type="number" min="1"  max="{{total}}" class="form-control"><label class=""> &nbsp;of {{total}} Entities</label></div>
+           </form>
+           <br/>
         </div>
-          <div class="row">
-						<div class="col-12">
-					{% if exam_list.has_other_pages %}
-					<div class="pagination text-center">                
-						<nav class="pagination__nav clearfix">
-							{% if Subject.has_previous %}
-							<a href="?page={{exam_list.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
-							{% else %}
-							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
-							{% endif %}
-							{% for i in Subject.paginator.page_range %}
-								{% if Subject.number == i %}
-									<span class="pagination__page pagination__page--active">{{i}}</span>
-								{% else %}
-							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
-								{% endif %}
-							{% endfor %}
-							{% if Subject.has_next %}
-							<a href="?page={{exam_list.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
-							{% else %}
-							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
-							{% endif %}
-						</nav>
-					</div>
-					{% endif %}
-					</div>
-					</div>
+        <div class="row">
+          <div class="m-auto">
+            {% if exam.has_other_pages %}
+              <div class="main-card mb-3">
+                      <nav class="" aria-label="Page navigation example">
+                          <ul class="pagination">
+                            {% if exam.has_previous %}
+                              <li class="page-item"><a href="?page={{exam.previous_page_number}}" class="page-link" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                            {% else %}
+                            <li class="page-item"><a href="javascript:void(0);" class="page-link disabled" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                            {% endif %}
+                            {% for i in exam.paginator.page_range %}
+                            {% if exam.number == i %}
+                            <li class="page-item active"><a href="javascript:void(0);" class="page-link disabled">{{i}}</a></li>
+                            {% else %}
+                            <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if exam.has_next %}
+                          <li class="page-item"><a href="?page={{exam.next_page_number}}" class="page-link" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                          {% else %}
+                          <li class="page-item disabled"><a href="" class="page-link disabled" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                          {% endif %}
+                          </ul>
+                      </nav>
+                  </div>
+              
+              {% endif %}
+            </div>
+          </div>
         </div>
+     
         <div class="tab-pane show" id="tab-eg115-1" role="tabpanel">
 
 <h3><b><center>Add Exam</center></b></h3>
@@ -113,8 +122,8 @@
 <form  method="POST" id="examform" class="needs-validation" data-sub-url="{% url 'loadsub' %}" data-subj-url="{% url 'loadexam' %}" novalidate>
   {% csrf_token %}
   <div class="col-md-8 mb-3 offset-md-2">
-    <label for="validationCustom01">Category</label>
-      <select class="custom-select" id="cat" name="category" aria-label="Example select with button addon">
+    <label for="validationCustom01"><strong>Category <span class="red">*</span></strong></label>
+      <select class="custom-select" id="cat" name="category" aria-label="Example select with button addon" required>
         <option value="">Select Category</option>
         {% for categorie in categories %}
         <option value="{{categorie.id}}">{{categorie.category}}</option>
@@ -125,54 +134,54 @@
  </div>
  </div>
  <div class="col-md-8 mb-3 offset-md-2">
-  <label for="validationCustom01">Sub category</label>
-      <select class="custom-select" name="sub_category" id="sub" aria-label="Example select with button addon">
+  <label for="validationCustom01"><strong>Sub Category <span class="red">*</span></strong></label>
+      <select class="custom-select" name="sub_category" id="sub" aria-label="Example select with button addon" required>
         <option value="">Select Category Name First</option>
       </select>
       <div class="invalid-feedback">
-        Select a valid category
+        Select a valid sub category
  </div>
  </div>
  <div class="col-md-8 mb-3 offset-md-2">
-  <label for="validationCustom01">Subject</label>
+  <label for="validationCustom01"><strong>Subject <span class="red">*</span></strong></label>
 
-      <select class="custom-select" name="subject" id="subj" aria-label="Example select with button addon">
+      <select class="custom-select" name="subject" id="subj" aria-label="Example select with button addon" required>
           <option value="">Select Subcategory Name First</option>
         </select>
         <div class="invalid-feedback">
-          Select a valid category
+          Select a valid Subject
    </div>
    </div>
    <div class="col-md-8 mb-3 offset-md-2">
-    <label for="validationCustom01">Exam Name</label>
-    <input class="form-control" type="text" placeholder="" name="name"required>
+    <label for="validationCustom01"><strong>Exam Name <span class="red">*</span></strong></label>
+    <input class="form-control" type="text" placeholder="Exam" name="name"required>
     <div class="invalid-feedback">
       Select a valid category
 </div>
   </div>
     <div class="col-md-8 mb-3 offset-md-2">
-      <label for="validationCustom01">Exam Date</label>
+      <label for="validationCustom01"><strong>Exam Date <span class="red">*</span></strong></label>
     <input class="form-control" type="date" placeholder="" name="date" required><br>
     <div class="invalid-feedback">
-      Select a valid category
+      Select a valid Date!
 </div>
   </div>
     <div class="col-md-8 mb-3 offset-md-2">
-      <label for="validationCustom01">Exam Duration(In Minute)</label>
-    <input  class="form-control" type="number" placeholder="" name="duration"required>
+      <label for="validationCustom01"><strong>Exam Duration(In Minute) <span class="red">*</span></strong></label>
+    <input  class="form-control" type="number" placeholder="00" name="duration"required>
     <div class="invalid-feedback">
-      Select a valid category
+      Enter a valid value!
 </div>
   </div>
     <div class="col-md-8 mb-3 offset-md-2">
-      <label for="validationCustom01">Passing Precentage</label>
-    <input class="form-control" type="number" placeholder="" name="pp" required>
+      <label for="validationCustom01"><strong>Passing Percentage <span class="red">*</span></strong></label>
+    <input class="form-control" type="number" placeholder="00" name="pp" required>
     <div class="invalid-feedback">
-      Select a valid category
+      Enter a valid value!
 </div>
   </div>
     <div class="col-md-8 mb-3 offset-md-2">
-      <label for="validationCustom01">RE Exam Day</label>
+      <label for="validationCustom01"><strong>RE Exam Date <span class="red">*</span></strong></label>
     <input class="form-control" type="date" placeholder="" name="redate" min="99999" required>
     <div class="invalid-feedback">
       Select a valid category
@@ -180,15 +189,15 @@
   </div>
    
     <div class="col-md-8 mb-3 offset-md-2">
-      <label for="validationCustom01">Terms & Condition</label>
-     <textarea class="form-control" rows="2" name="tc"></textarea>
+      <label for="validationCustom01"><strong>Terms & Condition <span class="red">*</span></strong></label>
+     <textarea class="form-control" rows="2" name="tc" required></textarea>
      <div class="invalid-feedback">
-      Select a valid category
+      Terms & Condition cannot be empty!
 </div>
-  </div>
+  </div><br>
   <div class="col-md-8 mb-3 offset-md-2">
     <div class="custom-checkbox custom-control">
-      <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input" name="nm" required value="True">
+      <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input" name="nm" value="True">
       <label class="custom-control-label" for="exampleCustomCheckbox">Negative Marking</label></div>
     <div class="invalid-feedback">
       Choose a value
@@ -201,9 +210,11 @@
     <div class="invalid-feedback">
       Choose a value
 </div>
-  </div>
+  </div><br>
+  <div class="col-md-8 mb-3 offset-md-2">
      <button class="btn btn-success" type="submit">Add Exam</button>
-</form>
+  </div>
+    </form>
 </div>
 </div>
 </div>

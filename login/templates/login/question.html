@@ -1,75 +1,50 @@
 {% extends 'base.html' %} 
 {% block content%}
-<h1><u><b><center>Sub category</center></b></u></h1>
 <script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-<div class="border">
-  <div class="input-group">
-    <form class="form-inline my-2 my-lg-1">
-      <div class="input-group">
+
+
+<div class="mb-3 card">
+  <br / ><br />
+<h3><u><b><center>Question</center></b></u></h3>
+
+
+  <div class="card-header card-header-tab-animation">
+      <ul class="nav nav-justified">
+          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="nav-link show active"><i class="fa fa-database"></i> Question List</a></li>
+          <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link show"><i class="fa fa-plus"></i> Add Question</a></li>
+      </ul>
+  </div>
+  <div class="card-body">
+      <div class="tab-content">
+          <div class="tab-pane show active" id="tab-eg115-0" role="tabpanel">
+  <div class="offset-lg-9 offset-md-8 offset-sm-4 offset-1">
+    <form >
+      <div class="search-wrapper active">
+        <div class="input-holder">
         {% if search_term %}
-        <input class="form-control mr-sm-2" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
-        <div class="input-group-addon">
-          <button type="submit" class="fabutton">
+        <input class="search-input" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
+          <button type="submit" class="search-icon">
          <i class="fa fa-close">
          </i>
          </button>
          {%else%}
-         <input class="form-control mr-sm-2" type="search" placeholder='search' aria-label="Search" name=search>
-         <div class="input-group-addon">
-          <button type="submit" class="fabutton">
-         <i class="fa fa-search">
-        </i>
+         <input class="search-input" type="search" placeholder="search" aria-label="Search" name=search>
+         <button class="search-icon" type="submit" ><i class="fa fa-search"></i>
         </button>
         {%endif%}
-        
       
     </div>
   </div>
- 
-    </form>      
-  </div>
-  <div class="row">
-    <div class="column" style="background-color:#dde;">
-      <br>
-      <h3><b><center>Add Questions</center></b></h3>
-      <form  method="POST" class="example" action="">
-        {% csrf_token %}
-        <div class="input-group">
-       
-            <select class="custom-select col-4" name="exam" aria-label="Example select with button addon">
-              <option selected>Questions</option>
-              {% for ex in exam %}
-              <option value="{{ex.id}}">{{ex.Name}}</option>
-              {% endfor %}
-            </select>
-          </div>
-          <textarea name="editor1"></textarea>
-          <script>
-                  CKEDITOR.replace( 'editor1' );
-          </script>
-          <input type="number" name="marks" required>
-        <input type="text" placeholder="1" name="option1" required>
-        <input type="text" placeholder="2" name="option2" required>
-        <input type="text" placeholder="3" name="option3" required>
-        <input type="text" placeholder="4" name="option4" required>
-        <select class="custom-select col-4" name="answer" aria-label="Example select with button addon">
-          <option selected>-----</option>
-          <option value="A">option1</option> 
-          <option value="B">option2</option>
-          <option value="C">option3</option>
-          <option value="D">option4</option>
-        </select>
-        <button type="submit">ADD</button>
-      </form>
-      <hr>
-      <div>
-             
-          <table class="table table-striped" id="myTable">
+    </form>
+    <br />      
+  </div>        
+  <div class="table-responsive">     
+    <table class="mb-0 table align-middle table-striped table-hover">
             <thead>
               <tr>
               
-                <th onclick="sortTable(0)">Sub category <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">Category</th>
+                <th onclick="sortTable(0)">Question <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Exam</th>
                 <th>Status</th>
                 <th>Option</th>
               </tr>
@@ -77,54 +52,139 @@
             <tbody>
               {% for q in Question %}
               <tr>
+                {% if q.status == True %}
                 <td>{{q.question | safe}}</td>
                 <td>{{q.exam_name}}</td>
-                
-               
-                <td><a href="#">
+                <td><a href="{% url 'quesstat' q.id%}">
                   <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
-              
-                <td><a href="#" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="#"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
-              
-
+                <td><a href="{% url 'ques_edit' q.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{%url 'ques_delete' q.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash"> </i> Delete</button></a></td>
+                  {% else %}
+                  <td>{{q.question | safe}}</td>
+                  <td>{{q.exam_name}}</td>
+                  <td><a href="{% url 'quesstat' q.id%}">
+                    <button class="btn btn-danger" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>
+                  <td><a href="{% url 'ques_edit' q.id%}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{%url 'ques_delete' q.id%}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash"> </i> Delete</button></a></td>
+                   {% endif %}
               </tr>
               {% endfor %}
             </tbody>
           </table>
+          <br />
+          <form class="form-inline" id="view">
+            <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group"><label for="show" class="mr-sm-2">Show</label><input class="listd form-control col-4" name="view" id="show" placeholder="{{list}}" type="number" min="1" max="{{total}}" class="form-control"><label class=""> &nbsp;of {{total}} Entities</label></div>
+           </form>
+           <br/>
+        </div>
+<br /><br />
+        <div class="row">
+          <div class="m-auto">
+            {% if Question.has_other_pages %}
+              <div class="main-card mb-3">
+                      <nav class="" aria-label="Page navigation example">
+                          <ul class="pagination">
+                            {% if Question.has_previous %}
+                              <li class="page-item"><a href="?page={{Question.previous_page_number}}" class="page-link" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                            {% else %}
+                            <li class="page-item"><a href="javascript:void(0);" class="page-link disabled" aria-label="Previous"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                            {% endif %}
+                            {% for i in Question.paginator.page_range %}
+                            {% if categories.number == i %}
+                            <li class="page-item active"><a href="javascript:void(0);" class="page-link disabled">{{i}}</a></li>
+                            {% else %}
+                            <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if Question.has_next %}
+                          <li class="page-item"><a href="?page={{Question.next_page_number}}" class="page-link" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                          {% else %}
+                          <li class="page-item disabled"><a href="" class="page-link disabled" aria-label="Next"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                          {% endif %}
+                          </ul>
+                      </nav>
+                  </div>
+              
+              {% endif %}
+            </div>
+          </div>
+    </div>    
 
 
-          <div class="row">
-						<div class="col-12">
-					{% if sub_categories.has_other_pages %}
-					<div class="pagination text-center">                
-						<nav class="pagination__nav clearfix">
-							{% if sub_categories.has_previous %}
-							<a href="?page={{sub_categories.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
-							{% else %}
-							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
-							{% endif %}
-							{% for i in sub_categories.paginator.page_range %}
-								{% if sub_categories.number == i %}
-									<span class="pagination__page pagination__page--active">{{i}}</span>
-								{% else %}
-							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
-								{% endif %}
-							{% endfor %}
-							{% if sub_categories.has_next %}
-							<a href="?page={{sub_categories.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
-							{% else %}
-							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
-							{% endif %}
-						</nav>
-					</div>
-					{% endif %}
-					</div>
-					</div>
-        
-      </div>    
+
+  <div class="tab-pane show" id="tab-eg115-1" role="tabpanel">
+
+
+<h3><b><center>Add Questions</center></b></h3>
+<hr>
+<form  method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom01"><strong>Exam <span class="red">*</span></strong></label>
+      <select class="custom-select" name="exam" aria-label="Example select with button addon" required>
+        <option value="">Exam</option>
+        {% for ex in exam %}
+        <option value="{{ex.id}}">{{ex.Name}}</option>
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Select a valid Exam
+      </div>
+      </div>
+      <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom01"><strong>Question <span class="red">*</span></strong></label>
+    <textarea class="form-control" name="editor1" required></textarea>
+    <div class="invalid-feedback">
+      Select a valid category
     </div>
-  </div>    
+    </div>
+    
+    <script>
+            CKEDITOR.replace( 'editor1' );
+    </script>
+
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom02"><strong>Marks <span class="red">*</span></strong></label>
+  <input type="number" class="form-control" placeholder="00" name="marks" required>
+  <div class="invalid-feedback">
+    Enter a valid No.
+  </div>
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom03"><strong>Option 1 <span class="red">*</span></strong></label>
+  <input type="text" class="form-control" placeholder="1" name="option1" required>
+  <div class="invalid-feedback">
+    Enter a valid Answer
+  </div>
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom02">Option 2</label>
+  <input type="text" class="form-control" placeholder="2" name="option2">
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom03">Option 3</label>
+  <input type="text" class="form-control" placeholder="3" name="option3" >
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom04">Option 4</label>
+  <input type="text" class="form-control" placeholder="4" name="option4">
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom01"><strong>Correct Answer <span class="red">*</span></strong></label>
+  <select class="custom-select" name="answer" aria-label="Example select with button addon" required>
+    <option selected>-----</option>
+    <option value="A">option1</option> 
+    <option value="B">option2</option>
+    <option value="C">option3</option>
+    <option value="D">option4</option>
+  </select>
+  <div class="invalid-feedback">
+    Select a valid value
 </div>
-<script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-</body>
+</div>
+
+<div class="col-md-8 mb-3 offset-md-2">
+  
+  <button class="btn btn-success" type="submit">ADD</button>
+</div>
+</form>
+</div>
 {%endblock%}

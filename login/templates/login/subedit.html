@@ -1,27 +1,45 @@
 {% extends 'base.html' %} 
 {% block content%}
-<h1><u><b><center>Edit Subject</center></b></u></h1>
-
-<div class="border">
-  <div class="container">
-  
-      <hr>
-      <h3><b><center>Edit Subject</center></b></h3>
-      <form  method="POST" action="">
-        {% csrf_token %}
-        <div class="input-group">
-            <select class="custom-select col-4" name="sub_category" aria-label="Example select with button addon">
-                <option selected>Sub Category</option>
-                {% for sub_categorie in categories %}
-                <option value="{{sub_categorie.id}}">{{sub_categorie.sub_category}}</option>
-                {% endfor %}
-            </select>
-            </div>
-        <input type="text" placeholder="Sub category" name="subject" required>
-        <button type="submit">Edit</button>
-        </form>
-    </div>
-  </div>    
+<div class="card pt-5 mt-3 pb-5">
+<h3><b><center>Edit Subject</center></b></h3>
+      <br /><hr/>
+<form  method="POST" id="subform" class="needs-validation" data-cities-url="{% url 'loadsub' %}" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2 form-group">
+    <label for="validationCustom03"><strong>Category <span class="red">*</span></strong></label>
+      <select class="custom-select form-control" id="cat" name="category" aria-label="Example select with button addon" required>
+        <option value="">Select Category</option>
+        {% for categorie in categories %}
+        <option value="{{categorie.id}}">{{categorie.category}}</option>
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Please provide a valid category
+      </div>
+      </div>
+      
+        <div class="col-md-8 mb-3 offset-md-2 form-group">
+          <label for="validationCustom03"><strong>Sub Category <span class="red">*</span></strong></label>
+          
+      <select class="custom-select form-control" name="sub_category" id="sub" aria-label="Example select with button addon" required>
+        <option value="">Sub Category</option>
+      </select>
+      <div class="invalid-feedback">
+        Please provide a valid subcategory
+      </div>
+   </div>
+    <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom03"><strong>Subject <span class="red">*</span></strong></label>
+      <input type="text" class="form-control" id="validationCustom03" placeholder="{{Subedit.subject}}" name="subject" required>
+      <div class="invalid-feedback">
+          Please provide a valid subject name.
+   </div>
+   <br/>
+    <button class="btn btn-success"type="submit">Edit</button>
+  </div>
+</form>
 </div>
-</body>
+
+
+
 {% endblock %}

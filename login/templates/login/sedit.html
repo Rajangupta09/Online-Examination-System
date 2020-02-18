@@ -1,30 +1,38 @@
 {% extends 'base.html' %} 
 {% block content%}
-<h1><u><b><center>Edit Sub category</center></b></u></h1>
+<div class="card pt-4 pb-5 mt-3">
+<h3><b><center>Edit Sub category</center></b></h3>
+<br />
+<br />
+<form  method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+      <div class="col-md-8 mb-3 offset-md-2">
+        <label for="validationCustom01"><strong>Category <span class="red">*</span></strong></label>
 
-<div class="border">
-  <div class="container">
-  
-      <hr>
-      <h3><b><center>Edit Sub Category</center></b></h3>
-      <form  method="POST" action="">
-        {% csrf_token %}
-        <div class="input-group">
-            <select class="custom-select col-4" name="category_id" aria-label="Example select with button addon">
-              <option selected value={{sedit.id}}>{{sedit.category}}</option>
-              {% for categorie in categories %}
-              {% if sedit.category_id == categorie.id %}
-              {% else %}
-              <option value="{{categorie.id}}">{{categorie.category}}</option>
-                {% endif%}
-              {% endfor %}
-            </select>
-          </div>
-        <input type="text" placeholder="{{sedit.sub_category}}" name="sub_category" required>
-        <button type="submit">Edit </button>
-      </form>
+      <select class="custom-select " name="category_id" aria-label="Example select with button addon">
+        <option selected value={{sedit.id}}>{{sedit.category}}</option>
+        {% for categorie in categories %}
+        {% if sedit.category_id == categorie.id %}
+        {% else %}
+        <option value="{{categorie.id}}">{{categorie.category}}</option>
+          {% endif%}
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Select a valid category
+ </div>
     </div>
-  </div>    
+    <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom03"><strong>Sub Category <span class="red">*</span></strong></label>
+      <input type="text" class="form-control" id="validationCustom03" placeholder="{{sedit.sub_category}}" name="sub_category" required>
+      <div class="invalid-feedback">
+          Please provide a valid sub category name.
+   </div>
+   <br/>
+    <button class="btn btn-success"type="submit">Edit</button>
+  </div>
+</form>
 </div>
-</body>
+
+
 {% endblock %}

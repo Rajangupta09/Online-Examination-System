@@ -1,0 +1,80 @@
+{% extends 'base.html' %} 
+{% block content%}
+
+<div class="mb-3 card">
+<br /><br />
+<h3><b><center>Edit Questions</center></b></h3>
+<hr>
+<form  method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom01"><strong>Exam <span class="red">*</span></strong></label>
+      <select class="custom-select" name="exam" aria-label="Example select with button addon" required>
+        <option value="{{quesedit.exam_name_id}}">{{quesedit.exam}}</option>
+        {% for ex in exam %}
+        <option value="{{ex.id}}">{{ex.Name}}</option>
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Select a valid Exam
+      </div>
+      </div>
+      <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom01"><strong>Question <span class="red">*</span></strong></label>
+    <textarea class="form-control" name="editor1" required>{{quesedit.queston}}</textarea>
+    <div class="invalid-feedback">
+      Select a valid category
+    </div>
+    </div>
+    
+    <script>
+            CKEDITOR.replace( 'editor1' );
+    </script>
+
+<div class="col-md-8 mb-3 offset-md-2">
+  <label for="validationCustom02"><strong>Marks <span class="red">*</span></strong></label>
+  <input type="number" class="form-control" placeholder="{{quesedit.marks}}" name="marks" required>
+  <div class="invalid-feedback">
+    Enter a valid No.
+  </div>
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom03"><strong>Option 1 <span class="red">*</span></strong></label>
+  <input type="text" class="form-control" placeholder="{{quesedit.option1}}" name="option1" required>
+  <div class="invalid-feedback">
+    Enter a valid Answer
+  </div>
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom02">Option 2</label>
+  <input type="text" class="form-control" placeholder="{{quesedit.option2}}" name="option2">
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom03">Option 3</label>
+  <input type="text" class="form-control" placeholder="{{quesedit.option3}}" name="option3" >
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom04">Option 4</label>
+  <input type="text" class="form-control" placeholder="{{quesedit.option4}}" name="option4">
+  </div>
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom01"><strong>Correct Answer <span class="red">*</span></strong></label>
+  <select class="custom-select" name="answer" aria-label="Example select with button addon" required>
+    <option selected>-----</option>
+    <option value="A">option1</option> 
+    <option value="B">option2</option>
+    <option value="C">option3</option>
+    <option value="D">option4</option>
+  </select>
+  <div class="invalid-feedback">
+    Select a valid value
+</div>
+</div>
+
+<div class="col-md-8 mb-3 offset-md-2">
+  
+  <button class="btn btn-success" type="submit">ADD</button>
+</div>
+</form>
+</div>
+{% endblock %}

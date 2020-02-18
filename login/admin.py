@@ -27,3 +27,4 @@ class SubjectAdmin(admin.ModelAdmin):
 admin.site.register(Subjects, SubjectAdmin)
 
 admin.site.register(Question)
+admin.site.register(Center)

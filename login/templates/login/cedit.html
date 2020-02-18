@@ -1,24 +1,23 @@
 {% extends 'base.html' %} 
 {% block content%}
-<!--  End of Welcome nav bar -->
+<div class="mb-3 mt-3 pt-5 pb-5 card">
+<h3><b><center>Add Category</center></b></h3>
+<form  method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2">
+    <label for="validationCustom03"><strong>Category <span class="red">*</span></strong></label>
+    <input type="text" class="form-control" id="validationCustom03" placeholder="Category" name="category" required>
+    <div class="invalid-feedback">
+        Please provide a valid category name.
+ </div>
+ <br/>
+  <button class="btn btn-success" id="load" type="submit">
+    <span id="gif"></span>
+    ADD
+  </button>
 
-<!--  Content -->
 
-<h1><u><b><center>Edit Category</center></b></u></h1>
-
-<div class="border">
-  <div class="container">
-  
-      <hr>
-      <h3><b><center>Edit Category</center></b></h3>
-      <form  method="POST" class="example" action="">
-        {% csrf_token %}
-        <input type="text"  name="category" placeholder="{{cedit.category}}" required>
-        
-        <button type="submit">Edit</button>
-      </form>
-    </div>
-  </div>    
 </div>
-</body>
+</form>
+</div>
 {%endblock%}
