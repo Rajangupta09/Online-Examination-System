@@ -1,0 +1,130 @@
+{% extends 'base.html' %} 
+{% block content%}
+<h1><u><b><center>Sub category</center></b></u></h1>
+<script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
+<div class="border">
+  <div class="input-group">
+    <form class="form-inline my-2 my-lg-1">
+      <div class="input-group">
+        {% if search_term %}
+        <input class="form-control mr-sm-2" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
+        <div class="input-group-addon">
+          <button type="submit" class="fabutton">
+         <i class="fa fa-close">
+         </i>
+         </button>
+         {%else%}
+         <input class="form-control mr-sm-2" type="search" placeholder='search' aria-label="Search" name=search>
+         <div class="input-group-addon">
+          <button type="submit" class="fabutton">
+         <i class="fa fa-search">
+        </i>
+        </button>
+        {%endif%}
+        
+      
+    </div>
+  </div>
+ 
+    </form>      
+  </div>
+  <div class="row">
+    <div class="column" style="background-color:#dde;">
+      <br>
+      <h3><b><center>Add Questions</center></b></h3>
+      <form  method="POST" class="example" action="">
+        {% csrf_token %}
+        <div class="input-group">
+       
+            <select class="custom-select col-4" name="exam" aria-label="Example select with button addon">
+              <option selected>Questions</option>
+              {% for ex in exam %}
+              <option value="{{ex.id}}">{{ex.Name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <textarea name="editor1"></textarea>
+          <script>
+                  CKEDITOR.replace( 'editor1' );
+          </script>
+          <input type="number" name="marks" required>
+        <input type="text" placeholder="1" name="option1" required>
+        <input type="text" placeholder="2" name="option2" required>
+        <input type="text" placeholder="3" name="option3" required>
+        <input type="text" placeholder="4" name="option4" required>
+        <select class="custom-select col-4" name="answer" aria-label="Example select with button addon">
+          <option selected>-----</option>
+          <option value="A">option1</option> 
+          <option value="B">option2</option>
+          <option value="C">option3</option>
+          <option value="D">option4</option>
+        </select>
+        <button type="submit">ADD</button>
+      </form>
+      <hr>
+      <div>
+             
+          <table class="table table-striped" id="myTable">
+            <thead>
+              <tr>
+              
+                <th onclick="sortTable(0)">Sub category <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Category</th>
+                <th>Status</th>
+                <th>Option</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for q in Question %}
+              <tr>
+                <td>{{q.question | safe}}</td>
+                <td>{{q.exam_name}}</td>
+                
+               
+                <td><a href="#">
+                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
+              
+                <td><a href="#" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="#"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+              
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+
+          <div class="row">
+						<div class="col-12">
+					{% if sub_categories.has_other_pages %}
+					<div class="pagination text-center">                
+						<nav class="pagination__nav clearfix">
+							{% if sub_categories.has_previous %}
+							<a href="?page={{sub_categories.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
+							{% endif %}
+							{% for i in sub_categories.paginator.page_range %}
+								{% if sub_categories.number == i %}
+									<span class="pagination__page pagination__page--active">{{i}}</span>
+								{% else %}
+							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
+								{% endif %}
+							{% endfor %}
+							{% if sub_categories.has_next %}
+							<a href="?page={{sub_categories.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
+							{% endif %}
+						</nav>
+					</div>
+					{% endif %}
+					</div>
+					</div>
+        
+      </div>    
+    </div>
+  </div>    
+</div>
+<script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
+</body>
+{%endblock%}

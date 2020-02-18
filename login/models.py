@@ -71,3 +71,35 @@ class Student(models.Model):
 	Password = models.CharField(max_length=200)
 	def __str__(self):
 	 return self.Name
+
+class Exam(models.Model):
+	id=models.AutoField(primary_key=True)
+	sub_category = models.ForeignKey(sub_categories, on_delete=models.CASCADE, related_name='exam_subcategories')
+	category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='exam_categories')
+	subject = models.ForeignKey(Subjects, on_delete=models.CASCADE, related_name='exam_subject')
+	Name = models.CharField(max_length=200)
+	exam_date = models.DateField()
+	exam_duration = models.DurationField(default='00:00:00')
+	pass_percentage = models.IntegerField()
+	reexam_date = models.DateField()
+	negative_marking = models.BooleanField(default=False, blank=True, null=True )
+	tandc = models.TextField()
+	resultonmail = models.BooleanField(default=False, blank=True, null=True)
+
+	def __str__(self):
+	 return self.Name
+
+class Question(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
+    exam_name = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    marks = models.PositiveIntegerField(default=0)
+    question = models.TextField(max_length=500)
+    option1 = models.CharField(max_length=100, null=True)
+    option2 = models.CharField(max_length=100, null=True)
+    option3 = models.CharField(max_length=100, null=True)
+    option4 = models.CharField(max_length=100, null=True)
+    choose = (('A', 'option1'), ('B', 'option2'), ('C', 'option3'), ('D', 'option4'))
+    answer = models.CharField(max_length=1, choices=choose)
+
+    def __str__(self):
+        return str(self.question)

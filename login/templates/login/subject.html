@@ -1,71 +1,44 @@
 {% extends 'base.html' %} 
 {% block content%}
-<!--  End of Welcome nav bar -->
 
-
-<!--  Content -->
-
+<div class="mb-3 card">
+  <br / ><br />
 <h1><u><b><center>Subject</center></b></u></h1>
 
-<div class="border">
-  <div class="input-group">
-    <form class="form-inline my-2 my-lg-1">
-      <div class="input-group">
-        {% if search_term %}
-        <input class="form-control mr-sm-2" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
-        <div class="input-group-addon">
-          <button type="submit" class="fabutton">
-         <i class="fa fa-close">
-         </i>
-         </button>
-         {%else%}
-         <input class="form-control mr-sm-2" type="search" placeholder='search' aria-label="Search" name=search>
-         <div class="input-group-addon">
-          <button type="submit" class="fabutton">
-         <i class="fa fa-search">
-        </i>
-        </button>
-        {%endif%}
-      
-    </div>
-  </div>
-
-    </form>      
-  </div>
-  <div class="row">
-    <div class="column" style="background-color:#dde;">
-      <br>
-      <h3><b><center>Add Subject</center></b></h3>
-      
-      <form  method="POST" id="subform" class="example" data-cities-url="{% url 'loadsub' %}" novalidate>
-        {% csrf_token %}
-        <div class="input-group">
-            <select class="custom-select col-4" id="cat" name="category" aria-label="Example select with button addon">
-              <option selected>Select Category</option>
-              {% for categorie in categories %}
-              <option value="{{categorie.id}}">{{categorie.category}}</option>
-              {% endfor %}
-            </select>
-            <select class="custom-select col-4" name="sub_category" id="sub" aria-label="Example select with button addon">
-              <option selected>Sub Category</option>
-            </select>
-          </div>
-        <input type="text" placeholder="Subject" name="subject" required>
-        <button type="submit">ADD</button>
-      </form>
-      <hr>
-      <div>
-           
-
-
-
-          <table class="table table-striped" id="myTable">
+<div class="card-header card-header-tab-animation">
+  <ul class="nav nav-justified">
+      <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="nav-link show active"><i class="fa fa-database"></i>Sub Category List</a></li>
+      <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link show"><i class="fa fa-plus"></i>Add Sub Category</a></li>
+  </ul>
+</div>
+<div class="card-body">
+  <div class="tab-content">
+      <div class="tab-pane show active" id="tab-eg115-0" role="tabpanel">
+        <div class="offset-lg-9 offset-md-8 offset-sm-4 offset-1">
+          <form >
+            <div class="search-wrapper active">
+              <div class="input-holder">
+                {% if search_term %}
+                  <input class="search-input" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
+                  <button type="submit" class="search-icon">
+                  <i class="fa fa-close"></i></button>
+                  {%else%}
+                  <input class="search-input" type="search" placeholder="search" aria-label="Search" name=search>
+                  <button class="search-icon" type="submit" ><i class="fa fa-search"></i></button>
+                  {%endif%}
+              </div>
+            </div>
+          </form>
+          <br />      
+        </div>  
+        <hr>
+        <div class="table-responsive">     
+          <table class="mb-0 table align-middle table-striped table-hover">
             <thead>
               <tr>
-              
                 <th onclick="sortTable(0)">Subject <i class="fa fa-sort"></i></th>
-                <th onclick="sortTable(1)">SubCategory</th>
                 <th onclick="sortTable(2)">Category</th>
+                <th onclick="sortTable(1)">SubCategory</th>
                 <th>Status</th>
                 <th>Option</th>
               </tr>
@@ -87,14 +60,14 @@
                 <td><a href="{% url 'subjstat' sub.id %}">
                   <button class="btn btn-success" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Activate</button> </a></td>>
                 <td><a href="{%url 'subject_edit' sub.id %}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{% url 'subject_delete' sub.id %}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
-                
                 {% endif %}
               </tr>
               {% endfor %}
             </tbody>
           </table>
-
-          <div class="row">
+        </div>
+        
+        <div class="row">
 						<div class="col-12">
 					{% if Subject.has_other_pages %}
 					<div class="pagination text-center">                
@@ -123,10 +96,52 @@
 					</div>
         
       </div>    
-    </div>
-  </div>    
+   
+
+
+<div class="tab-pane show" id="tab-eg115-1" role="tabpanel">
+
+<h3><b><center>Add Subject</center></b></h3>
+      
+<form  method="POST" id="subform" class="needs-validation" data-cities-url="{% url 'loadsub' %}" novalidate>
+  {% csrf_token %}
+  <div class="col-md-8 mb-3 offset-md-2 form-group">
+    <label for="validationCustom03">Category</label>
+      <select class="custom-select form-control" id="cat" name="category" aria-label="Example select with button addon" required>
+        <option value="">Select Category</option>
+        {% for categorie in categories %}
+        <option value="{{categorie.id}}">{{categorie.category}}</option>
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Please provide a valid category
+      </div>
+      </div>
+      
+        <div class="col-md-8 mb-3 offset-md-2 form-group">
+          <label for="validationCustom03">Sub category</label>
+          
+      <select class="custom-select form-control" name="sub_category" id="sub" aria-label="Example select with button addon" required>
+        <option value="">Sub Category</option>
+      </select>
+      <div class="invalid-feedback">
+        Please provide a valid subcategory
+      </div>
+   </div>
+    <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom03">Subject</label>
+      <input type="text" class="form-control" id="validationCustom03" placeholder="Enter subject name..." name="subject" required>
+      <div class="invalid-feedback">
+          Please provide a valid subject name.
+   </div>
+   <br/>
+    <button class="btn btn-success"type="submit">ADD</button>
+  </div>
+</form>
 </div>
-</body>
+</div>
+</div>    
+
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
  $("#cat").change(function () {

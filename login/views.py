@@ -39,6 +39,7 @@ def category(request):
 		post.category=request.POST.get('category')
 		post.save()
 		categories_list = Categories.objects.all().order_by('-date_created')
+		messages.success(request, 'Your request has been submitted')
 		return render(request, 'login/category.html',{'categories':paged_categorie})  
 	
 	if 'search' in request.GET:
@@ -64,7 +65,8 @@ def sub_category(request):
 		post.save()
 		categories_list = Categories.objects.all().order_by('-date_created')
 		sub_categories_list = sub_categories.objects.all().order_by('-date_created')
-		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':sub_categories_list,})  
+		messages.success(request, 'Your request has been submitted')
+		return render(request, 'login/sub_category.html',{'categories':categories_list,'sub_categories':paged_subcategorie,})  
 
 	if 'search' in request.GET:
 		search_term = request.GET['search']
@@ -240,4 +242,121 @@ def student(request):
 		post.Password=request.POST.get('password')
 		post.save()
 		return redirect('/OnlineExam/login/Student/')
-	return render(request, 'student.html', {'student':student, 'center':center, 'categories': categories_list})
+	return render(request, 'login/student.html', {'student':student, 'center':center, 'categories': categories_list})
+
+def studentstat(request, pk,):
+	statc = get_object_or_404(Student, pk=pk)   
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('/OnlineExam/login/Student/')
+	return render(request, 'student.html', {'statc': statc})
+
+def studentDelete(request, pk,):
+    studelete = get_object_or_404(Student, pk=pk)    
+    if request.method=='POST':
+        studelete.delete()
+        return redirect('/OnlineExam/login/Student/')
+    return render(request, 'login/delete.html', {'studelete': studelete})
+
+def studentEdit(request, pk,):
+	stuedit = get_object_or_404(Student, pk=pk)   
+	if request.method=='POST':
+		stuedit.category_id=request.POST.get('category')
+		stuedit.center_id=request.POST.get('center')
+		stuedit.Name=request.POST.get('name')
+		stuedit.father_name=request.POST.get('fname')
+		stuedit.mother_name=request.POST.get('mname')
+		stuedit.DOB = request.POST.get('date')
+		stuedit.Phone = request.POST.get('phone')
+		stuedit.Address = request.POST.get('address')
+		stuedit.Email=request.POST.get('email')
+		stuedit.Password=request.POST.get('password')
+		stuedit.save()
+		return redirect('/OnlineExam/login/Center/')
+	return render(request, 'login/stuedit.html', {'stuedit': stuedit})
+
+def exam(request):
+	subject_list = Subjects.objects.all().order_by('-date_created')
+	categories_list = Categories.objects.all().order_by('-date_created')
+	sub_categories_list = sub_categories.objects.all().order_by('-date_created')
+	exam_list = Exam.objects.all()
+	paginator = Paginator(exam_list, 10)
+	page = request.GET.get('page')
+	search_term=''
+	paged_exam = paginator.get_page(page)
+	if(request.method=="POST"):
+		post=Exam()
+		post.category_id=request.POST.get('category')
+		post.sub_category_id=request.POST.get('sub_category')
+		post.subject_id=request.POST.get('subject')
+		post.Name=request.POST.get('name')
+		post.exam_date=request.POST.get('date')
+		post.exam_duration=request.POST.get('duration')
+		post.pass_percentage=request.POST.get('pp')
+		post.reexam_date=request.POST.get('redate')
+		post.negative_marking=request.POST.get('nm')
+		post.tandc=request.POST.get('tc')
+		post.resultonmail=request.POST.get('rm')
+		messages.success(request, 'Your request has been submitted')
+		post.save()
+		  
+	if 'search' in request.GET:
+		search_term = request.GET['search']
+		exam_list=exam_list.filter(Name__icontains=search_term)
+		return render(request, 'login/exam.html',{'exam':exam_list, 'search_term':search_term})
+	return render(request, 'login/exam.html',{'sub_categories':sub_categories_list,'exam':paged_exam,'categories':categories_list})          
+
+def load_exam(request):
+	category_id = request.GET.get('category')
+	sub_category_id = request.GET.get('sub')
+	subject = Subjects.objects.filter(Q(category_id=category_id) | Q(sub_category_id=sub_category_id)).order_by('date_created')
+	return render(request, 'login/option1.html', {'subject': subject})
+
+	
+def examstat(request, pk,):
+	statc = get_object_or_404(Exam, pk=pk)   
+	if request.method=='POST':
+		statc.status=request.POST.get('status')
+		statc.save()
+		return redirect('OnlineExam/login/Exam/')
+	return render(request, 'exam.html', {'statc': statc})
+
+def examDelete(request, pk,):
+    examdelete = get_object_or_404(Exam, pk=pk)    
+    if request.method=='POST':
+        examdelete.delete()
+        return redirect('OnlineExam/login/Exam/')
+    return render(request, 'login/delete.html', {'examdelete': examdelete})
+
+def examedit(request, pk,):
+	examedit = get_object_or_404(Exam, pk=pk)   
+	if request.method=='POST':
+		examedit.Name=request.POST.get('name')
+		examedit.exam_date=request.POST.get('date')
+		examedit.exam_duration=request.POST.get('duration')
+		examedit.pass_percentage=request.POST.get('pp')
+		examedit.reexam_date=request.POST.get('redate')
+		examedit.negative_marking=request.POST.get('nm')
+		examedit.tandc=request.POST.get('tc')
+		examedit.resultonmail=request.POST.get('rm')
+		examedit.save()
+		return redirect('OnlineExam/login/Exam/') 
+	return render(request, 'login/examedit.html', {'examedit': examedit})
+
+def question(request):
+	ques= Question.objects.all()
+	exam_list = Exam.objects.all()
+	if(request.method=="POST"):
+		post=Question()
+		post.question=request.POST.get('editor1')
+		post.marks=request.POST.get('marks')
+		post.exam_name_id=request.POST.get('exam')
+		post.option1=request.POST.get('option1')
+		post.option2=request.POST.get('option2')
+		post.option3=request.POST.get('option3')
+		post.option4=request.POST.get('option4')
+		post.answer=request.POST.get('answer')
+		post.save()
+		return redirect('OnlineExam/login/Question/')
+	return render(request, 'login/question.html', {'Question': ques, 'exam':exam_list})

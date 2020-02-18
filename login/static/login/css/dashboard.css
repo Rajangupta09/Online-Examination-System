@@ -3,7 +3,7 @@
 }
 
 /* Create four equal columns that floats next to each other */
-.column {
+.column1 {
   float: left;
   width: 18%;
   padding: 15px;
@@ -32,7 +32,6 @@
     margin-right: 50px;
     margin-bottom: 40px;
     margin-left: 30px;
-    font-size: 25px;
 }
 
 /** Upper NAv bar **/

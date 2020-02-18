@@ -1,67 +1,72 @@
 {% extends 'base.html' %} 
 {% block content%}
 <!--  Content -->
-<div class="border">
 <div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
   <a href="{% url 'category' %}">
-  <div class="column" style="background-color:#aaa;">
     <h2><center><i class="fa fa-home fa-fw" aria-hidden="true"></i><br>Category</center></h2>
-  </div>
   </a>
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
   <a href="{% url 'sub_category' %}">
-  <div class="column" style="background-color:#bbb;">
-    <h2><center><i class="fa fa-comments-o fa-fw"></i><br>Sub Category</center></h2>
+    <h2><center><i class="fa fa-home fa-fw"></i><br>Sub Category</center></h2>
+    </a>
   </div>
-  </a>
+  <div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
   <a href="{% url 'subject'%}">
-  <div class="column" style="background-color:#ccc;">
     <h2><center><i class="fa fa-envelope fa-fw"></i><br> Subject</center></h2>
-  </div>
-  <a href="">
-    </a>
+  </a>
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
     <a href="{% url 'center' %}">
-  <div class="column" style="background-color:#ddd;">
-    <h2><center><i class="fa fa-support fa-fw"></i><br>Center</center></h2>
-  </div>
-   </a>
+
+      <h2><center><i class="fa fa-support fa-fw"></i><br>Center</center></h2>
+  </a>
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
    <a href="{% url 'student'%}">
-  <div class="column" style="background-color:#ddd;">
     <h2><center><i class="fa fa-users fa-fw"></i><br>Student</center></h2>
-  </div>
-   </a>
+  </a>
+</div>
 </div>
 
-
+<br />
 <div class="row">
-  <a href="">
-  <div class="column" style="background-color:#ddd;">
+  <div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+  <a href="{% url 'exam'%}">
     <h2><center><i class="fa fa-envelope fa-fw"></i> <br>Exam</center></h2>
-  </div>
   </a>
-  <a href="">
-  <div class="column" style="background-color:#ddd;">
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
+  <a href="{%url 'question' %}">
     <h2><center><i class="fa fa-comments-o fa-fw"></i><br>Question</center></h2>
-  </div>
   </a>
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
   <a href="">
-  <div class="column" style="background-color:#ccc;">
     <h2><center><i class="fa fa-wrench fa-fw"></i><br> Settings</center></h2>
-  </div>
-  <a href="">
-    </a>
+  </a>
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
     <a href="">
-  <div class="column" style="background-color:#bbb">
     <h2><center><i class="fa fa-envelope fa-fw"></i><br>Notice</center></h2>
-  </div>
-   </a>
+  </a>
+</div>
+<div class="col-lg-2 col-md-2 col-sm-3" style="background-color:#aaa;margin-right: 30px;">
+
    <a href="">
-  <div class="column" style="background-color:#aaa;">
     <h2><center><i class="fa fa-comments-o fa-fw"></i><br>View Result</center></h2>
-  </div>
-   </a>
+  </a>
+</div>
 </div>
 
 
-</div>
+
 
 {% endblock %}

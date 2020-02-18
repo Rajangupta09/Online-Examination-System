@@ -1,0 +1,211 @@
+{% extends 'base.html' %} 
+{% block content%}
+
+<div class="mb-3 card">
+  <br/><br/>
+  <h1><u><b><center>Students</center></b></u></h1>
+  <div class="card-header card-header-tab-animation">
+    <ul class="nav nav-justified">
+        <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-0" class="nav-link show active"><i class="fa fa-database"></i>Sub Category List</a></li>
+        <li class="nav-item"><a data-toggle="tab" href="#tab-eg115-1" class="nav-link show"><i class="fa fa-plus"></i>Add Sub Category</a></li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="tab-content">
+  
+      <div class="tab-pane show active" id="tab-eg115-0" role="tabpanel">
+        <div class="offset-lg-9 offset-md-8 offset-sm-4 offset-1">
+        <form >
+          <div class="search-wrapper active">
+            <div class="input-holder">
+            {% if search_term %}
+            <input class="search-input" type="search" placeholder="{{search_term}}" aria-label="Search" name=search>
+              <button type="submit" class="search-icon">
+            <i class="fa fa-close">
+            </i>
+            </button>
+            {%else%}
+            <input class="search-input" type="search" placeholder="search" aria-label="Search" name=search>
+            <button class="search-icon" type="submit" ><i class="fa fa-search"></i>
+            </button>
+            {%endif%} 
+            </div>
+          </div>
+        </form>
+        <br />      
+        </div> 
+  
+        <div class="table-responsive">     
+        <table class="mb-0 table align-middle table-striped table-hover">
+            <thead>
+              <tr>
+              
+                <th onclick="sortTable(0)">Category Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(1)">Center Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(2)">Student Name <i class="fa fa-sort"></i></th>
+                <th onclick="sortTable(3)">Father Name <i class="fa fa-sort"></i></th>
+                <th>Status</th>
+                <th>Option</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for std in student %}
+              <tr>
+                {% if std.status == True %}
+                <td>{{std.category}}</td>
+                <td>{{std.center}}</td>
+                <td>{{std.Name}}</td>
+                <td>{{std.father_name}}</td>
+
+               
+                <td><a href="">
+                  <button class="btn btn-danger" type="submit"><i class="fa fa-eye-slash"> </i> &nbsp; Deactivate</button> </a></td>
+              
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                {% else %}
+                <td>{{std.category}}</td>
+                <td>{{std.center}}</td>
+                <td>{{std.Name}}</td>
+                <td>{{std.father_name}}</td>
+
+               
+                <td><a href=""><button class="btn btn-success" name="activate" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate&nbsp;</button></a></td>
+                <td><a href="" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href=""> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash-o"> </i> Delete</button></a></td>
+                {% endif %}
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+          <div class="row">
+						<div class="col-12">
+					{% if sub_categories.has_other_pages %}
+					<div class="pagination text-center">                
+						<nav class="pagination__nav clearfix">
+							{% if sub_categories.has_previous %}
+							<a href="?page={{sub_categories.previous_page_number}}" class="pagination__page"><i class="ui-arrow-left"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-left"></i></a>
+							{% endif %}
+							{% for i in sub_categories.paginator.page_range %}
+								{% if sub_categories.number == i %}
+									<span class="pagination__page pagination__page--active">{{i}}</span>
+								{% else %}
+							<a href="?page={{i}}" class="pagination__page">{{i}}</a>
+								{% endif %}
+							{% endfor %}
+							{% if sub_categories.has_next %}
+							<a href="?page={{sub_categories.next_page_number}}" class="pagination__page"><i class="ui-arrow-right"></i></a>
+							{% else %}
+							<a class="pagination__page disabled"><i class="ui-arrow-right"></i></a>
+							{% endif %}
+						</nav>
+					</div>
+					{% endif %}
+					</div>
+					</div>
+        
+      </div>    
+    
+
+
+
+  <div class="tab-pane show" id="tab-eg115-1" role="tabpanel">
+  <h3><b><center>Add Student</center></b></h3>
+  <form  method="POST" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="col-md-8 mb-3 offset-md-2">
+      <label for="validationCustom03">Category</label>
+        <select class="custom-select" name="category" aria-label="Example select" required>
+          <option value="">Category</option>
+          {% for categorie in categories %}
+          <option value="{{categorie.id}}">{{categorie.category}}</option>
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+          Select a valid category
+   </div>
+      </div>
+      <div class="col-md-8 mb-3 offset-md-2">
+        <label for="validationCustom03">Center</label>
+
+        <select class="custom-select" name="center" aria-label="Example select" required>
+            <option value="">Center</option>
+            {% for c in center %}
+            <option value="{{c.center_code}}">{{c.Name}}</option>
+            {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+         Select a valid Center
+   </div>
+      </div>
+      
+      <div class="col-md-8 mb-3 offset-md-2">
+        <label for="validationCustom01">Student Name</label>
+          <input type="text" class="form-control" placeholder="Name" name="name" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom02">Father Name</label>
+          <input type="text" class="form-control" placeholder="Father Name" name="fname" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom03">Mother Name</label>
+          <input type="text" class="form-control" placeholder="Mother Name" name="mname" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom04">Date Of Birth</label>
+          <input type="date" class="form-control" name="date" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom05">Address</label>
+          <textarea  class="form-control" placeholder="Address" name="address" rows="2" cols="40" required></textarea>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom05">Phone</label>
+          <input type="text" class="form-control" placeholder="9998887776" name="phone" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom06">Email</label>
+          <input type="email" class="form-control " placeholder="Email" name="email" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          </div>
+          <div class="col-md-8 mb-3 offset-md-2">
+            <label for="validationCustom07">Password</label>
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
+          <div class="invalid-feedback">
+            Please provide a valid sub category name.
+          </div>
+          <br/>
+          <button class="btn btn-success" type="submit">ADD</button>
+         
+          </div>
+      </form>
+      </div>
+</div>
+</div>
+</div>
+
+
+
+{%endblock%}

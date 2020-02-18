@@ -25,3 +25,5 @@ class SubjectAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_per_page = 25
 admin.site.register(Subjects, SubjectAdmin)
+
+admin.site.register(Question)

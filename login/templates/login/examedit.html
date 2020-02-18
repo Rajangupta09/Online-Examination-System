@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+{% block content%}
+<!--  End of Welcome nav bar -->
+
+<!--  Content -->
+
+<h1><u><b><center>Edit Exam</center></b></u></h1>
+
+<div class="border">
+  <div class="container">
+  
+      <hr>
+      <h3><b><center>Edit Exam</center></b></h3>
+      <form  method="POST" id="examform" class="example" data-sub-url="{% url 'loadsub' %}" data-subj-url="{% url 'loadexam' %}" novalidate>
+        {% csrf_token %}
+        <div class="input-group">
+           <input type="text" placeholder="{{examedit.category}}" disabled>
+           <input type="text" placeholder="{{examedit.sub_category}}" disabled>
+           <input type="text" placeholder="{{examedit.subject}}" disabled>
+          <label>Exam Name</label>
+          <input type="text" placeholder="" name="name"required>
+          <label>Exam Date</label>
+          <input type="date" placeholder="" name="date" required><br>
+          <label>Exam Duration(In Minute)</label>
+          <input type="number" placeholder="" name="duration"required>
+          <label>Passing Precentage</label>
+          <input type="number" placeholder="" name="pp" required><br>
+          <label>RE Exam Day</label>
+          <input type="date" placeholder="" name="redate" min="99999" required>
+          <label>Negative Marking</label>
+          <input type="checkbox" name="nm" required value="True"><br>
+           <label>Terms & Condition</label>
+           <textarea rows="2" name="tc"></textarea>
+           <label>Result on Mail</label>
+           <input type="checkbox" name="rm" value="True"required>
+            <button type="submit">Edit Exam</button>
+      </form>
+    </div>
+  </div>    
+</div>
+</body>
+{%endblock%}
