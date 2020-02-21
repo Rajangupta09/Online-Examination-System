@@ -62,7 +62,7 @@
                   <td>{{q.question | safe}}</td>
                   <td>{{q.exam_name}}</td>
                   <td><a href="{% url 'quesstat' q.id%}">
-                    <button class="btn btn-danger" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>
+                    <button class="btn btn-success" type="submit"><i class="fa fa-eye"> </i> &nbsp; Activate</button> </a></td>
                   <td><a href="{% url 'ques_edit' q.id%}" <button class="btn btn-info"> <i class="fa fa-edit"> </i> Edit</button></a> &nbsp; <a href="{%url 'ques_delete' q.id%}"> <button  type="submit" class="btn btn-danger" name="delete"><i class="fa fa-trash"> </i> Delete</button></a></td>
                    {% endif %}
               </tr>

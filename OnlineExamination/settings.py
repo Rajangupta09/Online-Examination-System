@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'login.apps.LoginConfig',
+    'center.apps.CenterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,7 +125,6 @@ USE_TZ = True
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media' )
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL= 'dashboard/'
 
 
 django_heroku.settings(locals())

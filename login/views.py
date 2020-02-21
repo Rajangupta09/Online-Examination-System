@@ -3,14 +3,14 @@ from .models import *
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate ,login
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.db.models import Q
 
 
 def login(request):
 	if(request.method=="POST"):
 		params=request.POST
-		user=authenticate(params['username'], params['password'])
+		user=auth.authenticate(params['username'], params['password'])
 		if(user is not None):
 			login(request, User.objects.get(user__username=params['username']))
 			messages.success(request, 'Your request has been submitted')
@@ -31,7 +31,7 @@ def dashboard(request):
 def category(request):
 	categories_list = Categories.objects.all().order_by('-date_created')
 	total = Categories.objects.count()
-	dis=10
+	dis=int(total/3)
 	paginator = Paginator(categories_list, dis)
 	page = request.GET.get('page')
 	search_term=''

@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% block content%}
+<script src="https://cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
 
 <div class="mb-3 card">
 <br /><br />
@@ -21,7 +22,7 @@
       </div>
       <div class="col-md-8 mb-3 offset-md-2">
       <label for="validationCustom01"><strong>Question <span class="red">*</span></strong></label>
-    <textarea class="form-control" name="editor1" required>{{quesedit.queston}}</textarea>
+    <textarea class="form-control" name="editor1" required>{{quesedit.question}}</textarea>
     <div class="invalid-feedback">
       Select a valid category
     </div>
