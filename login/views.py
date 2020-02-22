@@ -31,9 +31,12 @@ def dashboard(request):
 def category(request):
 	categories_list = Categories.objects.all().order_by('-date_created')
 	total = Categories.objects.count()
-	dis=int(total/3)
-	paginator = Paginator(categories_list, dis)
+	if total <= 14:
+		dis=total
+	else:
+		dis=10
 	page = request.GET.get('page')
+	paginator = Paginator(categories_list, dis)
 	search_term=''
 	paged_categorie = paginator.get_page(page)
 	if(request.method=="POST"):
